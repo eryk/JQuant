@@ -5,6 +5,7 @@ import com.tictactec.ta.lib.MAType;
 import com.tictactec.ta.lib.MInteger;
 import com.tictactec.ta.lib.RetCode;
 import quant.fans.common.StockConstants;
+import quant.fans.common.Utils;
 import quant.fans.model.StockData;
 
 import java.util.List;
@@ -129,6 +130,11 @@ public class Indicators {
             output[2][i] = (output[0][i] - output[1][i]) * 2;
         }
         return output;
+    }
+
+    public double[][] macd(List<Double> values){
+        double[] doubles = Utils.toDoubleArray(values);
+        return macd(doubles);
     }
 
     public double[][] macd(double[] prices) {

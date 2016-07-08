@@ -1,7 +1,8 @@
-package quant.fans;
+package quant.fans.strategy;
 
 import com.google.common.collect.Lists;
-import quant.fans.common.Conditions;
+import quant.fans.Indicators;
+import quant.fans.tools.Conditions;
 import quant.fans.common.StockConstants;
 import quant.fans.common.Utils;
 import quant.fans.model.StockData;
@@ -10,11 +11,6 @@ import java.util.List;
 
 import static quant.fans.common.StockConstants.*;
 
-/**
- * author: eryk
- * mail: xuqi86@gmail.com
- * date: 15-11-17.
- */
 public class StrategyUtils {
 
     private static TDXFunction function = new TDXFunction();

@@ -5,8 +5,8 @@ import com.google.common.collect.Maps;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import quant.fans.Indicators;
-import quant.fans.StrategyUtils;
-import quant.fans.common.Conditions;
+import quant.fans.strategy.StrategyUtils;
+import quant.fans.tools.Conditions;
 import quant.fans.common.DateRange;
 import quant.fans.common.StockConstants;
 import quant.fans.common.Utils;
@@ -23,10 +23,6 @@ import java.util.*;
  * 流通市值,单位:亿
  * 外盘,单位:手
  * 内盘,单位:手
- * <p>
- * author: eryk
- * mail: xuqi86@gmail.com
- * date: 15-8-27.
  */
 public class Provider {
 

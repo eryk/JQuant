@@ -1,4 +1,4 @@
-package quant.fans.common;
+package quant.fans.tools;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
@@ -6,12 +6,6 @@ import quant.fans.model.StockData;
 
 import java.util.Set;
 
-
-/**
- * author: eryk
- * mail: xuqi86@gmail.com
- * date: 15-9-28.
- */
 public class Conditions {
     public enum Operation{
         GT,LT,EQ,NGT,NLT

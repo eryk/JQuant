@@ -431,6 +431,13 @@ public class Utils {
         return array;
     }
 
+    public static double[] toDoubleArray(List<Double> values){
+        double[] array = new double[values.size()];
+        for(int i=0;i<values.size();i++){
+            array[i] = values.get(i);
+        }
+        return array;
+    }
     /**
      * 判断当前时间是否是交易时间段
      * 周一到周五

@@ -1,4 +1,4 @@
-package quant.fans;
+package quant.fans.strategy;
 
 import com.tictactec.ta.lib.Core;
 import com.tictactec.ta.lib.MInteger;

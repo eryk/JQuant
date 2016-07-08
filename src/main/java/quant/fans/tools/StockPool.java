@@ -1,13 +1,10 @@
 package quant.fans.tools;
 
 import com.google.common.collect.Lists;
-import quant.fans.common.Conditions;
-import quant.fans.common.Utils;
 import quant.fans.model.StockBlock;
 import quant.fans.provider.Provider;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /**
  * author: eryk

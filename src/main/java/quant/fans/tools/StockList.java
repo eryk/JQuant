@@ -9,7 +9,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import quant.fans.common.Conditions;
 import quant.fans.common.Utils;
 import quant.fans.downloader.Downloader;
 import quant.fans.model.StockData;

@@ -2,12 +2,10 @@ package quant.fans;
 
 import quant.fans.model.StockData;
 import quant.fans.provider.Provider;
-import quant.fans.strategy.StrategyUtils;
+import quant.fans.strategy.Strategies;
 
 import java.util.List;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.Map;
 
 public class Quants {
 
@@ -24,8 +22,21 @@ public class Quants {
     /**
      * 策略计算接口
      */
-    public final StrategyUtils strategy = new StrategyUtils();
+    public final Strategies strategy = new Strategies();
 
+    /**
+     * 使用外部存储，支持：
+     *      文件系统(csv)
+     *      redis
+     *      hbase
+     *
+     * @param config
+     * @return
+     */
+    public Quants db(Map<String,String> config){
+        //TODO
+        return this;
+    }
 
     public static void main(String[] args) {
         Quants quants = new Quants();

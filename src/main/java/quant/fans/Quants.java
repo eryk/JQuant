@@ -29,17 +29,14 @@ public class Quants {
 
     public static void main(String[] args) {
         Quants quants = new Quants();
-        List<StockData> stockDatas = quants.data.dailyData("600560");
+        List<StockData> stockDatas = quants.data.dailyData("002121");
+
+        quants.indicator.macd(stockDatas);
+        quants.indicator.sma(stockDatas);
+        quants.indicator.boll(stockDatas);
+        quants.indicator.kdj(stockDatas);
         for(StockData stockData:stockDatas){
             System.out.println(stockData);
         }
-        Stream<Double> closes = stockDatas.parallelStream().map(new Function<StockData, Double>() {
-            @Override
-            public Double apply(StockData stockData) {
-                return stockData.get("close");
-            }
-        });
-        List<Double> doubles = closes.collect(Collectors.toList());
-        quants.indicator.macd(doubles);
     }
 }

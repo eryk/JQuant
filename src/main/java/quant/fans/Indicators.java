@@ -8,13 +8,36 @@ import quant.fans.common.StockConstants;
 import quant.fans.common.Utils;
 import quant.fans.model.StockData;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Indicators {
-    private Core core;
+    public Core core;
 
     public Indicators() {
         core = new Core();
+    }
+
+    public List<StockData> sma(List<StockData> stockDatas){
+        stockDatas = sma(stockDatas,5);
+        stockDatas = sma(stockDatas,10);
+        stockDatas = sma(stockDatas,20);
+        stockDatas = sma(stockDatas,30);
+        stockDatas = sma(stockDatas,60);
+        return stockDatas;
+    }
+
+    public List<StockData> sma(List<StockData> stockDatas,int ma){
+        return sma(stockDatas,"close",ma);
+    }
+
+
+    public List<StockData> sma(List<StockData> stockDatas,String column,int ma){
+        double[] doubles = Utils.toDoubleArray(stockDatas,column);
+        double[] sma = sma(doubles, ma);
+        Utils.addDoubleArrayToList(sma,stockDatas,"ma_" + ma);
+        return stockDatas;
     }
 
     public double[] sma(double[] prices, int ma) {
@@ -38,6 +61,27 @@ public class Indicators {
         }
 
         return output;
+    }
+
+    public List<StockData> ema(List<StockData> stockDatas){
+        stockDatas = ema(stockDatas,5);
+        stockDatas = ema(stockDatas,10);
+        stockDatas = ema(stockDatas,20);
+        stockDatas = ema(stockDatas,30);
+        stockDatas = ema(stockDatas,60);
+        return stockDatas;
+    }
+
+    public List<StockData> ema(List<StockData> stockDatas,int ma){
+        return ema(stockDatas,"close",ma);
+    }
+
+
+    public List<StockData> ema(List<StockData> stockDatas,String column,int ma){
+        double[] doubles = Utils.toDoubleArray(stockDatas,column);
+        double[] ema = ema(doubles, ma);
+        Utils.addDoubleArrayToList(ema,stockDatas,"ema_" + ma);
+        return stockDatas;
     }
 
     public double[] ema(double[] prices, int ma) {
@@ -80,6 +124,21 @@ public class Indicators {
         return result;
     }
 
+    public List<StockData> macd(List<StockData> stockDatas){
+        return macd(stockDatas,12, 26, 9);
+    }
+
+    public List<StockData> macd(List<StockData> stockDatas, int optInFastPeriod, int optInSlowPeriod, int optInSignalPeriod){
+        double[] closes = Utils.toDoubleArray(stockDatas,"close");
+        double[][] macd = macd(closes, optInFastPeriod, optInSlowPeriod, optInSignalPeriod);
+        for(int i=0;i<stockDatas.size();i++){
+            stockDatas.get(i).put("dif",new BigDecimal(macd[0][i]).setScale(3,BigDecimal.ROUND_HALF_UP).doubleValue());
+            stockDatas.get(i).put("dea",new BigDecimal(macd[1][i]).setScale(3,BigDecimal.ROUND_HALF_UP).doubleValue());
+            stockDatas.get(i).put("macd",new BigDecimal(macd[2][i]).setScale(3,BigDecimal.ROUND_HALF_UP).doubleValue());
+        }
+        return stockDatas;
+    }
+    
     /**
      *
      * @param prices
@@ -132,15 +191,32 @@ public class Indicators {
         return output;
     }
 
-    public double[][] macd(List<Double> values){
-        double[] doubles = Utils.toDoubleArray(values);
-        return macd(doubles);
-    }
-
     public double[][] macd(double[] prices) {
         return macd(prices, 12, 26, 9);
     }
 
+    public List<StockData> boll(List<StockData> stockDatas){
+        double[] closes = Utils.toDoubleArray(stockDatas,"close");
+        double[][] boll = boll(closes);
+        for(int i=0;i<stockDatas.size();i++){
+            stockDatas.get(i).put("boll_upper",new BigDecimal(boll[0][i]).setScale(3,BigDecimal.ROUND_HALF_UP).doubleValue());
+            stockDatas.get(i).put("boll_mid",new BigDecimal(boll[1][i]).setScale(3,BigDecimal.ROUND_HALF_UP).doubleValue());
+            stockDatas.get(i).put("boll_lower",new BigDecimal(boll[2][i]).setScale(3,BigDecimal.ROUND_HALF_UP).doubleValue());
+        }
+        return stockDatas;
+    }
+
+    /**
+     *
+     * @param prices
+     * @param optInTimePeriod
+     * @param optInNbDevUp
+     * @param optInNbDevDn
+     * @return
+     *      boll[0][]: upper
+     *      boll[1][]: mid
+     *      boll[2][]: lower
+     */
     public double[][] boll(double[] prices, int optInTimePeriod, double optInNbDevUp, double optInNbDevDn) {
         MAType optInMAType = MAType.Sma;
 
@@ -241,16 +317,22 @@ public class Indicators {
         return result;
     }
 
-    public double[][] kdj(List<StockData> stockDataList){
-        double[] closes = new double[stockDataList.size()];
-        double[] high = new double[stockDataList.size()];
-        double[] low = new double[stockDataList.size()];
-        for (int i = 0; i < stockDataList.size(); i++) {
-            closes[i] = stockDataList.get(i).get(StockConstants.CLOSE);
-            high[i] = stockDataList.get(i).get(StockConstants.HIGH);
-            low[i] = stockDataList.get(i).get(StockConstants.LOW);
+    public List<StockData> kdj(List<StockData> stockDatas){
+        double[] closes = new double[stockDatas.size()];
+        double[] high = new double[stockDatas.size()];
+        double[] low = new double[stockDatas.size()];
+        for (int i = 0; i < stockDatas.size(); i++) {
+            closes[i] = stockDatas.get(i).get(StockConstants.CLOSE);
+            high[i] = stockDatas.get(i).get(StockConstants.HIGH);
+            low[i] = stockDatas.get(i).get(StockConstants.LOW);
         }
-        return kdj(high,low,closes);
+        double[][] kdj = kdj(high, low, closes);
+        for(int i=0;i<stockDatas.size();i++){
+            stockDatas.get(i).put("kdj_k",new BigDecimal(kdj[0][i]).setScale(3,BigDecimal.ROUND_HALF_UP).doubleValue());
+            stockDatas.get(i).put("kdj_d",new BigDecimal(kdj[1][i]).setScale(3,BigDecimal.ROUND_HALF_UP).doubleValue());
+            stockDatas.get(i).put("kdj_j",new BigDecimal(kdj[2][i]).setScale(3,BigDecimal.ROUND_HALF_UP).doubleValue());
+        }
+        return stockDatas;
     }
 
     // 6,12,24

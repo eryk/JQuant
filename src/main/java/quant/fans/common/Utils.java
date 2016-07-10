@@ -19,10 +19,12 @@ import quant.fans.model.Tick;
 import quant.fans.tools.Sleeper;
 
 import java.io.*;
+import java.math.BigDecimal;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
+import java.util.stream.Collectors;
 
 import static quant.fans.common.Constants.MINUTE_ROWKEY_DATA_FORMAT;
 import static quant.fans.common.Constants.SECOND_ROWKEY_DATA_FORMAT;
@@ -429,6 +431,29 @@ public class Utils {
         String[] array = new String[stockList.size()];
         stockList.toArray(array);
         return array;
+    }
+
+    /**
+     * 将StockDatas的一列值转化成double[]
+     * @param stockDatas
+     * @param column
+     * @return
+     */
+    public static double[] toDoubleArray(List<StockData> stockDatas,String column){
+        List<Double> values = stockDatas.parallelStream().map(stockData -> stockData.get(column)).collect(Collectors.toList());
+        double[] doubles = Utils.toDoubleArray(values);
+        return doubles;
+    }
+
+    public static boolean addDoubleArrayToList(double[] values,List<StockData> stockDatas,String column){
+        if(values.length == stockDatas.size()){
+            for(int i =0 ;i<values.length;i++){
+                stockDatas.get(i).put(column,new BigDecimal(values[i]).setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue());
+            }
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public static double[] toDoubleArray(List<Double> values){

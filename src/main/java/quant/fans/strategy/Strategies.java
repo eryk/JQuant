@@ -11,7 +11,7 @@ import java.util.List;
 
 import static quant.fans.common.StockConstants.*;
 
-public class StrategyUtils {
+public class Strategies {
 
     private static TDXFunction function = new TDXFunction();
 

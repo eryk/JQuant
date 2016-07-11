@@ -16,6 +16,38 @@ public class Strategies {
     private static TDXFunction function = new TDXFunction();
 
     /**
+     * 计算macd指标金叉和死叉
+     *      指标名称:macd_cross
+     *      状态：
+     *          1：金叉
+     *          0：相交
+     *          -1：死叉
+     * @param stockDatas
+     * @return
+     */
+    public static List<StockData> macdCross(List<StockData> stockDatas){
+        if(stockDatas == null || stockDatas.size() == 0){
+            return stockDatas;
+        }
+        if(stockDatas.size() > 0){
+            if(stockDatas.get(0).get("dif") == null || stockDatas.get(0).get("dea") == null){
+                return stockDatas;
+            }
+        }
+
+        for(int i =0;i< stockDatas.size();i++){
+            if(stockDatas.get(i).get("dif") > stockDatas.get(i).get("dea")){
+                stockDatas.get(i).put("macd_cross",1d);
+            }else if(stockDatas.get(i).get("dif") < stockDatas.get(i).get("dea")) {
+                stockDatas.get(i).put("macd_cross", -1d);
+            }else{
+                stockDatas.get(i).put("macd_cross", 0d);
+            }
+        }
+        return stockDatas;
+    }
+
+    /**
      * 判断最近n个时间周期内是否出现金叉,或者是当前的MACD值在（-0.1,0.1）之间并且dif，dea持续缩短
      *
      * @param period
@@ -31,6 +63,53 @@ public class Strategies {
             }
         }
         return false;
+    }
+
+    public static List<StockData> kdjCross(List<StockData> stockDatas){
+        if(stockDatas == null || stockDatas.size() == 0){
+            return stockDatas;
+        }
+        if(stockDatas.size() > 0){
+            if(stockDatas.get(0).get("kdj_d") == null || stockDatas.get(0).get("kdj_d") == null){
+                return stockDatas;
+            }
+        }
+
+        for(int i =0;i< stockDatas.size();i++){
+            if(stockDatas.get(i).get("kdj_j") > stockDatas.get(i).get("kdj_d")){
+                stockDatas.get(i).put("kdj_cross",1d);
+            }else if(stockDatas.get(i).get("kdj_j") < stockDatas.get(i).get("kdj_d")) {
+                stockDatas.get(i).put("kdj_cross", -1d);
+            }else{
+                stockDatas.get(i).put("kdj_cross", 0d);
+            }
+        }
+        return stockDatas;
+    }
+
+    /**
+     * 布林线上下轨之差小于中轨的10%，标记为1
+     * @param stockDatas
+     * @return
+     */
+    public static List<StockData> bollThroat(List<StockData> stockDatas){
+        if(stockDatas == null || stockDatas.size() == 0){
+            return stockDatas;
+        }
+        if(stockDatas.size() > 0){
+            if(stockDatas.get(0).get("boll_upper") == null || stockDatas.get(0).get("boll_lower") == null){
+                return stockDatas;
+            }
+        }
+
+        for(int i =0;i< stockDatas.size();i++){
+            if((stockDatas.get(i).get("boll_upper") - stockDatas.get(i).get("boll_lower")) < (stockDatas.get(i).get("boll_lower") * 0.1)){
+                stockDatas.get(i).put("boll_throat",1d);
+            }else{
+                stockDatas.get(i).put("boll_throat",0d);
+            }
+        }
+        return stockDatas;
     }
 
     /**
@@ -104,7 +183,6 @@ public class Strategies {
             double ma30 = stockData.get(CLOSE_MA30);
             double ma40 = stockData.get(CLOSE_MA40);
             double ma60 = stockData.get(CLOSE_MA60);
-//            double ma120 = stockData.get(CLOSE_MA120);
             if (ma5 == 0 || ma10 == 0 || ma20 == 0 || ma30 == 0 || ma40 == 0 || ma60 == 0) {
                 continue;
             }

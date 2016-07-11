@@ -24,6 +24,7 @@ public class Indicators {
         stockDatas = sma(stockDatas,10);
         stockDatas = sma(stockDatas,20);
         stockDatas = sma(stockDatas,30);
+        stockDatas = sma(stockDatas,40);
         stockDatas = sma(stockDatas,60);
         return stockDatas;
     }
@@ -36,7 +37,7 @@ public class Indicators {
     public List<StockData> sma(List<StockData> stockDatas,String column,int ma){
         double[] doubles = Utils.toDoubleArray(stockDatas,column);
         double[] sma = sma(doubles, ma);
-        Utils.addDoubleArrayToList(sma,stockDatas,"ma_" + ma);
+        Utils.addDoubleArrayToList(sma,stockDatas,"close_ma" + ma);
         return stockDatas;
     }
 

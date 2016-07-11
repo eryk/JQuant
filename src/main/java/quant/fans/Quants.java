@@ -26,28 +26,42 @@ public class Quants {
 
     /**
      * 使用外部存储，支持：
-     *      文件系统(csv)
-     *      redis
-     *      hbase
+     * 文件系统(csv)
+     * redis
+     * hbase
      *
      * @param config
      * @return
      */
-    public Quants db(Map<String,String> config){
+    public Quants db(Map<String, String> config) {
         //TODO
         return this;
     }
 
     public static void main(String[] args) {
         Quants quants = new Quants();
-        List<StockData> stockDatas = quants.data.dailyData("002121");
+        List<String> list = quants.data.stockList();
+        quants.data.tradingStockList();
 
-        quants.indicator.macd(stockDatas);
-        quants.indicator.sma(stockDatas);
-        quants.indicator.boll(stockDatas);
-        quants.indicator.kdj(stockDatas);
-        for(StockData stockData:stockDatas){
-            System.out.println(stockData);
+        for (String stock : list) {
+            List<StockData> stockDatas = quants.data.dailyData(stock);
+            if(stockDatas == null || stockDatas.size() < 60){
+                continue;
+            }
+            quants.indicator.macd(stockDatas);
+            quants.indicator.sma(stockDatas);
+            quants.indicator.boll(stockDatas);
+            quants.indicator.kdj(stockDatas);
+            quants.strategy.macdCross(stockDatas);
+            quants.strategy.kdjCross(stockDatas);
+            quants.strategy.goldenSpider(stockDatas);
+            quants.strategy.bollThroat(stockDatas);
+            for (StockData stockData : stockDatas) {
+                if (stockData.get("boll_throat") > 0) {
+                    System.out.println(stockData);
+                }
+            }
         }
+
     }
 }

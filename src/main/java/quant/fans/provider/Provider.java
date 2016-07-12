@@ -5,7 +5,7 @@ import com.google.common.collect.Maps;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import quant.fans.Indicators;
-import quant.fans.strategy.Strategies;
+import quant.fans.strategy.StrategyUtils;
 import quant.fans.tools.Conditions;
 import quant.fans.common.DateRange;
 import quant.fans.common.StockConstants;
@@ -624,7 +624,7 @@ public class Provider {
      * @return
      */
     public static List<StockData> computeAverageBond(List<StockData> stockDataList,double threshold){
-        return Strategies.averageBond(stockDataList,threshold);
+        return StrategyUtils.averageBond(stockDataList,threshold);
     }
 
     public static List<StockData> computeDailyAll(String symbol, int period){

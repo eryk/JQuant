@@ -2,7 +2,7 @@ package quant.fans;
 
 import quant.fans.model.StockData;
 import quant.fans.provider.Provider;
-import quant.fans.strategy.Strategies;
+import quant.fans.strategy.StrategyUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -22,7 +22,7 @@ public class Quants {
     /**
      * 策略计算接口
      */
-    public final Strategies strategy = new Strategies();
+    public final StrategyUtils strategy = new StrategyUtils();
 
     /**
      * 使用外部存储，支持：

@@ -176,6 +176,47 @@ public class StockList {
         return stocks;
     }
 
+    public static List<StockData> sort(List<String> stockList,String name,String order){
+        ExecutorService service = Executors.newFixedThreadPool(10);
+
+        final List<StockData> stockDatas = Collections.synchronizedList(new LinkedList<StockData>());
+        CountDownLatch countDownLatch = new CountDownLatch(stockList.size());
+        for(String stock:stockList){
+            service.execute(() -> {
+                StockData stockData = RealTimeDataProvider.get(stock);
+                if(stockData != null){
+                    stockDatas.add(stockData);
+                }
+                countDownLatch.countDown();
+            });
+        }
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Utils.closeThreadPool(service);
+
+        Ordering<StockData> ordering = new Ordering<StockData>() {
+            @Override
+            public int compare(StockData sd1, StockData sd2) {
+                if(sd1.get(name) !=null && sd2.get(name) !=null){
+                    return sd1.get(name).compareTo(sd2.get(name));
+                }else{
+                    return 0;
+                }
+            }
+        };
+
+        List<StockData> results = Lists.newLinkedList();
+        if(order.equals("desc")){
+            results.addAll(ordering.reverse().sortedCopy(stockDatas));
+        }else{
+            results.addAll(ordering.sortedCopy(stockDatas));
+        }
+        return results;
+    }
+
     /**
      * 融资融券股票列表
      * @return
@@ -238,23 +279,14 @@ public class StockList {
     }
 
     public static void main(String[] args) throws IOException {
-//        Map<String,String> stockMap = StockMap.getMap();
-//        for(Map.Entry<String, String> stock:stockMap.entrySet()){
-//            System.out.println(stock.getKey()+":"+stock.getValue());
-//        }
-//        System.out.println("stock:"+stockMap.size());
+        Conditions conditions = new Conditions();
+        conditions.addCondition("marketValue", Conditions.Operation.LT,40d);
 
-        System.out.println(StockList.getStockStatus("000003"));
-//        System.out.println(StockList.getStockStatus("002106"));
-//        System.out.println(StockList.getStockStatus("600376"));
-
-//        List<String> list = getSMEStockList();
-//        for(String symbol:list){
-//            System.out.println(symbol);
-//        }
-
-//        List<String> list = getSTStockList();
-//        list.forEach((symbol) -> System.out.println(symbol));
+        List<String> stockList = StockList.getTradingStockList(conditions);
+        List<StockData> stockDatas = StockList.sort(stockList,"marketValue","asc");
+        for(StockData stockData:stockDatas){
+            System.out.println(stockData.symbol + "\t" + stockData.name + "\t" + stockData.get("marketValue"));
+        }
     }
 
 }

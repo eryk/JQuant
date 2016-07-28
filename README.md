@@ -41,3 +41,17 @@ public class Main {
     }
 }
 ```
+
+# API
+
+## 初始化
+
+> Quants quants = new Quants();
+
+## 股票数据 quants.data
+
+## 股票列表 quants.stocks
+
+## 指标计算 quants.indicator
+
+## 策略计算 quants.strategy

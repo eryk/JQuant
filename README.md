@@ -13,17 +13,22 @@ public class Main {
 
     public static void main(String[] args) {
         Quants quants = new Quants();
+        //获取股票列表
         List<String> list = quants.data.stockList();
 
         for (String stock : list) {
+            //StockData代表一个时间片的数据，例如日线级别，每个StockData为一天收盘后的股票数据
             List<StockData> stockDatas = quants.data.dailyData(stock);
+            //剔除交易数据小于60天的股票
             if (stockDatas == null || stockDatas.size() < 60) {
                 continue;
             }
+            //indicator包含常用指标的计算
             quants.indicator.macd(stockDatas);
             quants.indicator.sma(stockDatas);
             quants.indicator.boll(stockDatas);
             quants.indicator.kdj(stockDatas);
+            //strategy包含简单的策略计算，例如macd金叉
             quants.strategy.macdCross(stockDatas);
             quants.strategy.kdjCross(stockDatas);
             quants.strategy.goldenSpider(stockDatas);
@@ -32,7 +37,6 @@ public class Main {
                 System.out.println(stockData);
             }
         }
-
     }
 }
 ```

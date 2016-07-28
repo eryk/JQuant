@@ -25,6 +25,7 @@ public class Main {
             }
             //indicator包含常用指标的计算
             quants.indicator.macd(stockDatas);
+            //获取5、10、20、30、40、60均线，也可以通过sma(stockDatas,ma)获取指定时间间隔的均线
             quants.indicator.sma(stockDatas);
             quants.indicator.boll(stockDatas);
             quants.indicator.kdj(stockDatas);

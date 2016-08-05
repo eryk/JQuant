@@ -1,10 +1,5 @@
 package quant.fans.common;
 
-/**
- * author: eryk
- * mail: xuqi86@gmail.com
- * date: 15-8-5.
- */
 public class Pair<K,V> {
     private K key;
     private V val;

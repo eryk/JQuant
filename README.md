@@ -1,5 +1,15 @@
 # JQuant
 
+# Maven依赖
+
+```xml
+<dependency>
+    <groupId>quant.fans</groupId>
+    <artifactId>JQuant</artifactId>
+    <version>0.1</version>
+</dependency>
+```
+
 # 示例
 
 ```java

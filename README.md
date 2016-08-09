@@ -6,7 +6,7 @@
 
 ```xml
 <dependency>
-    <groupId>quant.fans</groupId>
+    <groupId>net.jquant</groupId>
     <artifactId>JQuant</artifactId>
     <version>0.1</version>
 </dependency>

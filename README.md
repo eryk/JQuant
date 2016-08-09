@@ -1,5 +1,17 @@
 # JQuant
 
+![微信订阅号](https://github.com/eryk/JQuant/blob/test/qrcode_for_gh_188ebb8e2c0a_258.jpg "微信订阅号")
+
+# Maven依赖
+
+```xml
+<dependency>
+    <groupId>quant.fans</groupId>
+    <artifactId>JQuant</artifactId>
+    <version>0.1</version>
+</dependency>
+```
+
 # 示例
 
 ```java

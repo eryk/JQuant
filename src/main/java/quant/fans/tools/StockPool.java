@@ -49,7 +49,7 @@ public class StockPool {
         String key = "trade";
         List<String> stockList = Lists.newLinkedList();
         if(stockList==null || stockList.size()==0){
-            stockList = Provider.tradingStockList();
+            stockList = StockList.getTradingStockList();
             add(key,stockList,86400);
         }
         return stockList;
@@ -75,7 +75,7 @@ public class StockPool {
         String key = "margin";
         List<String> stockList = Lists.newLinkedList();
         if(stockList==null){
-            stockList = Provider.marginTradingStockList();
+            stockList = StockList.getMarginTradingStockList();
             add(key,stockList,86400);
         }
         return stockList;
@@ -108,7 +108,7 @@ public class StockPool {
 
     public List<String> listByConditions(Conditions conditions) {
         List<String> tradingStockList = tradingStock();
-        return Provider.getStockListWithConditions(tradingStockList, conditions);
+        return StockList.getStockListWithConditions(tradingStockList, conditions);
     }
 
     private List<String> getList(String key,long timeout) {

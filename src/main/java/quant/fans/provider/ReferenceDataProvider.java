@@ -57,9 +57,9 @@ public class ReferenceDataProvider {
     /**
      * 股东人数变化，周期为季度
      *
-     * @param market
-     * @param date
-     * @return
+     * @param market market
+     * @param date date
+     * @return stock data list
      */
     public static List<StockData> getShareHolderCountData(String market, String date) {
         List<StockData> stockDataList = Lists.newLinkedList();
@@ -153,7 +153,7 @@ public class ReferenceDataProvider {
      * 获取分配预案数据
      *
      * @param year 年份
-     * @return
+     * @return stock data list
      */
     public static List<StockData> getFPYA(String year) {
         Integer pageCount = getPageCount(year);
@@ -169,8 +169,8 @@ public class ReferenceDataProvider {
 
     /**
      * 获取分红融资数据
-     *
-     * @return
+     * @param symbol stock symbol
+     * @return stock data list
      */
     public static List<StockData> getFHRZ(String symbol) {
         String url = String.format(FHRZ_URL, Symbol.getSymbol(symbol, FHRZ_URL));
@@ -193,8 +193,8 @@ public class ReferenceDataProvider {
 
     /**
      * 获取分红配股数据
-     *
-     * @return
+     * @param symbol stock symbol
+     * @return stock data list
      */
     public static List<StockData> getFHPG(String symbol) {
         String url = String.format(FHPG_URL, symbol);
@@ -299,7 +299,7 @@ public class ReferenceDataProvider {
     /**
      * 获取大盘融资融券数据
      *
-     * @return
+     * @return stock data list
      */
     public static List<StockData> getTotalMarginTrade() {
         List<StockData> stockDataList = Lists.newLinkedList();
@@ -347,7 +347,7 @@ public class ReferenceDataProvider {
      * 本日融券偿还量＝本日买券还券量＋本日直接还券量＋本日融券强制平仓量＋本日融券正权益调整－本日融券负权益调整－本日余券应划转量；
      * 融券单位：股（标的证券为股票）/份（标的证券为基金）/手（标的证券为债券）。
      *
-     * @return
+     * @return stock data list
      */
     public static List<StockData> getMarginTrade() {
         List<StockData> stockDataList = Lists.newArrayListWithCapacity(1000);
@@ -358,8 +358,8 @@ public class ReferenceDataProvider {
 
     /**
      * 获取融资融券数据
-     *
-     * @return
+     * @param url url
+     * @return stock data list
      */
     public static List<StockData> getMarginTrade(String url) {
         List<StockData> stockDataList = Lists.newLinkedList();

@@ -23,8 +23,8 @@ public class Suggest {
 
     /**
      * 输入中文或者英文片段查询股票,例如：中国,282等关键词
-     * @param query
-     * @return
+     * @param query query field
+     * @return stock name and code
      */
     public static List<Map<String, String>> suggest(String query) {
         //例如：[{"c":"sz000009","s":"000009","n":"\u4e2d\u56fd\u5b9d\u5b89","p":"ZGBA","t":"stock"},{"c":"sz000035","s":"000035","n":"\u4e2d\u56fd\u5929\u6979","p":"ZGTY","t":"stock"},{"c":"sz000797","s":"000797","n":"\u4e2d\u56fd\u6b66\u5937","p":"ZGWY","t":"stock"},{"c":"sz000951","s":"000951","n":"\u4e2d\u56fd\u91cd\u6c7d","p":"ZGZQ","t":"stock"},{"c":"sz000996","s":"000996","n":"\u4e2d\u56fd\u4e2d\u671f","p":"ZGZQ","t":"stock"},{"c":"sz002116","s":"002116","n":"\u4e2d\u56fd\u6d77\u8bda","p":"ZGHC","t":"stock"},{"c":"sh600007","s":"600007","n":"\u4e2d\u56fd\u56fd\u8d38","p":"ZGGM","t":"stock"},{"c":"sh600028","s":"600028","n":"\u4e2d\u56fd\u77f3\u5316","p":"ZGSH","t":"stock"},{"c":"sh600050","s":"600050","n":"\u4e2d\u56fd\u8054\u901a","p":"ZGLT","t":"stock"},{"c":"sh600056","s":"600056","n":"\u4e2d\u56fd\u533b\u836f","p":"ZGYY","t":"stock"}]

@@ -47,8 +47,8 @@ public class Symbol {
 
     /**
      * 雅虎股票接口需要将股票代码后面加上.ss或者.sz
-     * @param symbol
-     * @return
+     * @param symbol stock symbol
+     * @return yahoo symbol
      */
     public static String yahooSymbol(String symbol){
         if(Strings.isNullOrEmpty(symbol) && symbol.length() != 6){

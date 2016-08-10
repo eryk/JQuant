@@ -38,7 +38,7 @@ public class ReportDataProvider {
     /**
      * 个股研究报告
      * @param startDate 报告起始时间，格式:yyyyMMdd
-     * @return
+     * @return stock data list
      */
     public static List<StockData> getStockReportData(String startDate){
         Date start = Utils.str2Date(startDate,"yyyyMMdd");
@@ -89,6 +89,7 @@ public class ReportDataProvider {
 
     /**
      * 获取盈利预期数据，全部版块=_A
+     * @return stock data list
      */
     public static List<StockData> getExpectEarnings(){
         List<StockData> stockDataList = Lists.newLinkedList();

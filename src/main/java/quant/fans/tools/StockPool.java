@@ -25,9 +25,9 @@ public class StockPool {
     /**
      * stockpool添加list到redis存储
      *
-     * @param name
-     * @param stockList
-     * @param timeout   单位：秒
+     * @param name name
+     * @param stockList stocklist
+     * @param timeout Unit: Second
      */
     public void add(String name, List<String> stockList, long timeout) {
 //        redisTemplate.delete(getKeyWithPrefix(name));
@@ -43,7 +43,7 @@ public class StockPool {
 
     /**
      * 获取交易中的股票列表
-     * @return
+     * @return stock list
      */
     public List<String> tradingStock(){
         String key = "trade";
@@ -57,9 +57,8 @@ public class StockPool {
 
     /**
      * 获取股票列表中交易中的股票列表
-     *
-     * @param stockList
-     * @return
+     * @param stockList  stock list
+     * @return stock list
      */
     public List<String> tradingStock(List<String> stockList) {
         List<String> tradingStockList = Lists.newArrayList(tradingStock());
@@ -69,7 +68,7 @@ public class StockPool {
 
     /**
      * 获取融资融券股票列表
-     * @return
+     * @return stock list
      */
     public List<String> marginTradingStock() {
         String key = "margin";
@@ -83,7 +82,7 @@ public class StockPool {
 
     /**
      * 全部股票列表
-     * @return
+     * @return stock list
      */
     public List<String> stockList(){
         return getList("all",86400);
@@ -93,8 +92,8 @@ public class StockPool {
      * 获取某个大分类下的版块名称
      *
      * @param category 概念，行业，地域
-     * @param name
-     * @return
+     * @param name name
+     * @return stock category list
      */
     public List<String> listByCategory(String category, String name) {
         List<StockBlock> stockBlocks = StockCategory.getCategory().get(category);

@@ -33,9 +33,9 @@ public class TickDataProvider {
 
     /**
      *
-     * @param symbol
+     * @param symbol stock symbol
      * @param date yyyy-MM-dd
-     * @return
+     * @return tick data list
      */
     public static List<Tick> get(String symbol, String date){
         String url = String.format(tickHisDataURL, date, Symbol.getSymbol(symbol, tickHisDataURL));

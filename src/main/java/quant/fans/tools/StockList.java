@@ -63,9 +63,9 @@ public class StockList {
     }
 
     /**
-     * @param column
+     * @param column column name
      * @param order  取值为asc或desc
-     * @return
+     * @return stocklist
      */
     public StockList orderBy(String column, String order) {
         if ("asc".equals("order") || "desc".equals("order")) {
@@ -143,10 +143,9 @@ public class StockList {
 
     /**
      * 获取股票状态，分为三种情况：已退市，停牌中，交易中
-     *
-     * @param symbol
-     * @return
-     * @throws IOException
+     * @param symbol stock symbol
+     * @throws IOException IOException
+     * @return stock status
      */
     public static String getStockStatus(String symbol) throws IOException {
         Random random = new Random();
@@ -226,8 +225,6 @@ public class StockList {
 
     /**
      * 获取中小板股票列表
-     *
-     * @return
      */
     private List<String> getSMEStockList() {
         return getSMEStockList(getSymbols());
@@ -240,8 +237,6 @@ public class StockList {
 
     /**
      * 获取创业板股票列表
-     *
-     * @return
      */
     private List<String> getGEMStockList() {
         Collection<String> list = Collections2.filter(getSymbols(), (String input) -> input.startsWith("300"));
@@ -260,8 +255,7 @@ public class StockList {
 
     /**
      * 获取股票列表中“交易中”的股票,即未退市和停牌的股票列表
-     *
-     * @return
+     * @return stock list
      */
     public static List<String> getTradingStockList() {
         return getTradingStockList(getSymbols());
@@ -297,9 +291,8 @@ public class StockList {
 
     /**
      * 按照代码获取股票最新状态
-     *
-     * @param stockList
-     * @return
+     * @param stockList stock list
+     * @return stock list
      */
     private static List<StockData> getStockDataList(List<String> stockList) {
         final List<StockData> stockDatas = Collections.synchronizedList(new LinkedList<StockData>());
@@ -323,8 +316,7 @@ public class StockList {
 
     /**
      * 融资融券股票列表
-     *
-     * @return
+     * @return stock list
      */
     public static List<String> getMarginTradingStockList() {
         List<String> marginTradingStockList = Lists.newLinkedList();
@@ -351,9 +343,8 @@ public class StockList {
 
     /**
      * 获取指定股票列表中交易中的股票
-     *
-     * @param list
-     * @return
+     * @param list stock list
+     * @return stock list
      */
     public static List<String> getTradingStockList(List<String> list) {
         final List<String> stockList = Collections.synchronizedList(new LinkedList<String>());

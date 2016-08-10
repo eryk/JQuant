@@ -12,7 +12,7 @@ import java.util.List;
 public class SortinoRatio {
     /**
      * 所提诺比率 = (平均收益 - 国债利率)/损失波动率
-     * @brief Computes the Sortino ratio for a list of returns.
+     * Computes the Sortino ratio for a list of returns.
      *
      * @param returns The returns
      * @param rf The risk free average return
@@ -47,7 +47,7 @@ public class SortinoRatio {
     }
 
     /**
-     * @brief Computes the Sortino ratio for the short strategy.
+     * Computes the Sortino ratio for the short strategy.
      *
      * @param returns The returns
      *
@@ -60,7 +60,7 @@ public class SortinoRatio {
     }
 
     /**
-     * @brief Computes the Sortino ratio for the short strategy.
+     * Computes the Sortino ratio for the short strategy.
      *
      * @param returns The returns
      * @param rf The risk free average return

@@ -47,11 +47,6 @@ public class DailyDataProvider {
 
     /**
      * 获取前复权数据
-     *
-     * @param symbol
-     * @param startDate
-     * @param stopDate
-     * @return
      */
     private static Map<String, StockData> qfqData(String symbol, String startDate, String stopDate) {
         Map<String, StockData> stockDataMap = Maps.newHashMap();
@@ -105,9 +100,8 @@ public class DailyDataProvider {
 
     /**
      * 根据时间获取季度
-     *
-     * @param date
-     * @return
+     * @param date date
+     * @return quarter
      */
     public static int getQuarter(Date date) {
         return (date.getMonth() / 3) + 1;
@@ -164,10 +158,10 @@ public class DailyDataProvider {
      * 创业板综:1399102
      * 中小板指:1399005
      * 中小板综:1399101
-     * @param symbol
-     * @param startDate
-     * @param stopDate
-     * @return
+     * @param symbol stock symbol
+     * @param startDate yyyyMMdd
+     * @param stopDate yyyyMMdd
+     * @return data list
      */
     public static List<StockData> getZS(String symbol,String startDate,String stopDate){
         String url;
@@ -181,25 +175,24 @@ public class DailyDataProvider {
 
     /**
      * 获取未复权数据
-     * @param symbol
-     * @param startDate
-     * @param stopDate
-     * @return
+     * @param symbol stock symbol
+     * @param startDate yyyyMMdd
+     * @param stopDate yyyyMMdd
+     * @return data list
      */
     public static List<StockData> get(String symbol,String startDate,String stopDate){
         return getDailyDataWithOutFQ(symbol, startDate, stopDate);
     }
 
-    /**
-     * 获取前复权数据
-     * @param symbol
-     * @param startDate
-     * @param stopDate
-     * @return
-     */
-
     //http://d.10jqka.com.cn/v2/line/hs_600133/01/2015.js
     public static String FQ_URL = "http://d.10jqka.com.cn/v2/line/hs_%s/01/%s.js";
+    /**
+     * 获取前复权数据
+     * @param symbol stock symbol
+     * @param startDate yyyyMMdd
+     * @param stopDate yyyyMMdd
+     * @return fq data list
+     */
     public static List<StockData> getFQ(String symbol, String startDate, String stopDate){
         List<StockData> stockDataList = Lists.newLinkedList();
         List<String> years = Utils.getYearBetween(startDate,stopDate);
@@ -254,10 +247,10 @@ public class DailyDataProvider {
     }
 
     /**
-     * @param symbol
+     * @param symbol stock symbol
      * @param startDate yyyyMMdd
      * @param stopDate  yyyyMMdd
-     * @return
+     * @return url path with start and stop date
      */
     public static String getPath(String symbol, String startDate, String stopDate) {
         return String.format(DAILY_DATA_URL, Symbol.getSymbol(symbol, DAILY_DATA_URL), startDate, stopDate);

@@ -25,8 +25,8 @@ public class StrategyUtils {
      *          1：金叉
      *          0：相交
      *          -1：死叉
-     * @param stockDatas
-     * @return
+     * @param stockDatas stock data list
+     * @return stock data list
      */
     public static List<StockData> macdCross(List<StockData> stockDatas){
         if(stockDatas == null || stockDatas.size() == 0){
@@ -53,7 +53,8 @@ public class StrategyUtils {
     /**
      * 判断最近n个时间周期内是否出现金叉,或者是当前的MACD值在（-0.1,0.1）之间并且dif，dea持续缩短
      *
-     * @param period
+     * @param stockDataList stock data list
+     * @param period period
      * @return 如果是返回true
      */
     public static boolean isMACDGoldenCrossIn(List<StockData> stockDataList, int period) {
@@ -92,8 +93,8 @@ public class StrategyUtils {
 
     /**
      * 布林线上下轨之差小于中轨的10%，标记为1
-     * @param stockDatas
-     * @return
+     * @param stockDatas stock data list
+     * @return stock data list
      */
     public static List<StockData> bollThroat(List<StockData> stockDatas){
         if(stockDatas == null || stockDatas.size() == 0){
@@ -118,11 +119,11 @@ public class StrategyUtils {
     /**
      * 判断收盘价两条线是否相交，快线从下上传慢线叫金叉，快慢线名称请参考StockConstants类
      *
-     * @param stockDataList
+     * @param stockDataList stock data list
      * @param maFast        例如：close_ma5
      * @param maSlow        例如：close_ma10
-     * @param period
-     * @return
+     * @param period period
+     * @return stock data list
      */
     public static boolean isGoldenCrossIn(List<StockData> stockDataList, String maFast, String maSlow, int period) {
         int size = stockDataList.size() - 1;
@@ -157,7 +158,8 @@ public class StrategyUtils {
     /**
      * 判断最近n个时间周期内是否出现死叉
      *
-     * @param period
+     * @param stockDataList stock data list
+     * @param period period
      * @return 如果是返回true
      */
     public static boolean isMACDDiedCrossIn(List<StockData> stockDataList, int period) {
@@ -173,8 +175,9 @@ public class StrategyUtils {
 
     /**
      * 计算有几条均线粘合,粘合数加入到AVERAGE_BOND参数中
-     *
-     * @return
+     * @param stockDataList stock data list
+     * @param threshold threshold
+     * @return stock data list
      */
     public static List<StockData> averageBond(List<StockData> stockDataList, double threshold) {
         List<StockData> result = Lists.newLinkedList();
@@ -205,18 +208,9 @@ public class StrategyUtils {
     }
 
     /**
-     * MA2:=EMA(C,2);
-     * MA5:EMA(C,5);
-     * MA13:EMA(C,13);
-     * MA34:EMA(C,34);
-     * MA55:EMA(C,55);
-     * YCX:=MA5>=REF(MA5,1);
-     * H1:=MAX(MAX(MA5,MA13),MA34);
-     * L1:=MIN(MIN(MA5,MA13),MA34);
-     * 一阳穿三线:= H1<C AND O<L1 AND YCX AND MA2>REF(MA2,1);
-     *
-     * @param stockDataList
-     * @return
+     * 金蜘蛛策略
+     * @param stockDataList stock data list
+     * @return stock data list
      */
     public static List<StockData> goldenSpider(List<StockData> stockDataList) {
         Indicators indicators = new Indicators();
@@ -279,10 +273,10 @@ public class StrategyUtils {
 
     /**
      * 计算最近count天内每天涨跌幅是否出现过conditions
-     * @param stockDataList
-     * @param count
-     * @param conditions
-     * @return
+     * @param stockDataList stock data list
+     * @param count n day
+     * @param conditions conditions
+     * @return true if conditions is true
      */
     public static boolean change(List<StockData> stockDataList,int count,Conditions conditions){
         int size = stockDataList.size();

@@ -130,9 +130,9 @@ public class StockCategory {
     }
 
     /**
-     * 获取股票某个大分类下的具体分类
-     * @param type 概念，行业，地域
-     * @return
+     * 获取股票某个大分类下的具体分类:概念，行业，地域
+     * @param type type
+     * @return stock category
      */
     public static Map<String,Set<String>> getStockCategory(String type){
         List<StockBlock> stockBlocks = category.get(type);
@@ -156,7 +156,7 @@ public class StockCategory {
 
     /**
      * 获取股票的全部类别，包含概念，行业，地域
-     * @return
+     * @return stock category
      */
     public static Map<String,List<String>> getStockCategory(){
         Map<String, List<StockBlock>> stockCategory = category;
@@ -178,8 +178,6 @@ public class StockCategory {
 
     /**
      * 获取某个板块下的全部股票
-     * @param id
-     * @return
      */
     private static List<String> getBlockStockList(String id) {
         String url = String.format(blockStockListURL,id);

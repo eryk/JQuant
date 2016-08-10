@@ -78,8 +78,8 @@ public class DateRange {
 
     /**
      * 获取从开始时间到结束时间的交易日期
-     * @param format
-     * @return
+     * @param format format style
+     * @return date list
      */
     public List<String> getDateList(String format){
         List<String> dateList = Lists.newArrayListWithCapacity(dayCount+1);

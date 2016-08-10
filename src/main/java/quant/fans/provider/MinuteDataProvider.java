@@ -31,11 +31,11 @@ public class MinuteDataProvider {
 
     /**
      *  获取一段时间内股票数据，受数据源限制
-     * @param symbol
+     * @param symbol stock symbol
      * @param startDate yyyyMMdd
      * @param stopDate  yyyyMMdd
      * @param type      5,15,30,60
-     * @return
+     * @return stock data list
      */
     public static List<StockData> get(String symbol, String startDate, String stopDate, String type){
         Map<String,Map<String,String>> results = collect(symbol, Utils.str2Date(startDate,"yyyyMMdd"),Utils.str2Date(stopDate,"yyyyMMdd"),type);

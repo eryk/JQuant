@@ -19,9 +19,9 @@ public class TDXFunction {
     /**
      * 计算一段时间周期内的最大值
      *
-     * @param prices
-     * @param period
-     * @return
+     * @param prices prices
+     * @param period period
+     * @return hhv
      */
     public double[] hhv(double[] prices, int period) {
         double[] output = new double[prices.length];
@@ -68,9 +68,9 @@ public class TDXFunction {
      * 当A在B线以上，返回1
      * 当A向下穿过B（死叉），返回0
      *
-     * @param lineA
-     * @param lineB
-     * @return
+     * @param lineA lineA
+     * @param lineB lineB
+     * @return crossPoint
      */
     public double[] crossPoint(double[] lineA, double[] lineB) {
         if (lineA != null && lineB != null & lineA.length != lineB.length && lineA.length != 0) {
@@ -93,9 +93,9 @@ public class TDXFunction {
     /**
      * 判断a和b是否在最后一个周期内相交
      *
-     * @param lineA
-     * @param lineB
-     * @return
+     * @param lineA lineA
+     * @param lineB lineB
+     * @return cross
      */
     public boolean cross(double[] lineA, double[] lineB) {
         if (lineA != null && lineB != null & lineA.length != lineB.length && lineA.length != 0) {

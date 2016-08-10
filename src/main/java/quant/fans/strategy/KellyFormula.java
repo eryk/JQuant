@@ -36,7 +36,7 @@ public class KellyFormula {
     /**
      *
      * @param p 胜率
-     * @param profit
+     * @param profit profit
      * @param loss  盈亏比,赔率,盈亏比平均赢的金额/平均输的金额
      */
     public KellyFormula(double p, double profit, double loss) {

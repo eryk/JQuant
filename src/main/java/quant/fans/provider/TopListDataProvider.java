@@ -71,7 +71,7 @@ public class TopListDataProvider {
     /**
      * 每日龙虎榜详情
      * @param date yyyyMMdd
-     * @return
+     * @return stock data list
      */
     public static List<StockData> getDailyTopList(String date){
         Date day = Utils.str2Date(date,"yyyyMMdd");
@@ -116,7 +116,7 @@ public class TopListDataProvider {
     /**
      * 个股龙虎榜统计
      * @param dayCount 取值:5,10,30,60
-     * @return
+     * @return stock data list
      */
     public static List<StockData> getStockRanking(int dayCount){
         int pageCount = getPageCount(sinaStockHistoryTopURL,dayCount);
@@ -178,8 +178,8 @@ public class TopListDataProvider {
 
     /**
      * 机构席位成交明细
-     * @param count
-     * @return
+     * @param count count
+     * @return stock data list
      */
     public static List<StockData> getOrganizationDetailRanking(int count){
         List<StockData> stockDataList = Lists.newLinkedList();

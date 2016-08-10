@@ -56,8 +56,8 @@ public class MoneyFlowDataProvider {
     private static String moneyFlowRegion10DayHisURL = "http://nufm.dfcfw.com/EM_Finance2014NumericApplication/JS.aspx?cmd=C._BKDY&type=ct&st=(BalFlowMainNet10)&sr=-1&p=1&ps=50&&token=894050c76af8597a853f5b408b759f5d&sty=DCFFITABK10&rt=%s";
     /**
      * 获取当天个股资金流数据
-     * @param symbol
-     * @return
+     * @param symbol stock symbol
+     * @return stock data list
      */
     public static StockData get(String symbol) {
         Map<String, String> map = collect(symbol);
@@ -81,10 +81,10 @@ public class MoneyFlowDataProvider {
 
     /**
      * 获取指定时间段股票资金流数据
-     * @param symbol
-     * @param startDate
-     * @param stopDate
-     * @return
+     * @param symbol stock symbol
+     * @param startDate yyyyMMdd
+     * @param stopDate yyyyMMdd
+     * @return stock data list
      */
     public static List<StockData> get(String symbol, String startDate, String stopDate) {
         List<String[]> list = collectHis(symbol);
@@ -123,7 +123,7 @@ public class MoneyFlowDataProvider {
 
     /**
      * 获取大盘资金流数据
-     * @return
+     * @return stock data list
      */
     public static List<StockData> getDapan() {
         List<String[]> list = collectDaPan();
@@ -149,7 +149,7 @@ public class MoneyFlowDataProvider {
     /**
      * 获取行业版块资金流数据
      * @param type 1,5,10
-     * @return
+     * @return stock data list
      */
     public static List<StockData> getIndustry(String type) {
         List<String> list = collectIndustry(type);
@@ -169,7 +169,8 @@ public class MoneyFlowDataProvider {
 
     /**
      * 获取概念版块资金流数据
-     * @return
+     * @param type type
+     * @return stock data list
      */
     public static List<StockData> getConcept(String type){
         List<String> list = collectConcept(type);
@@ -189,7 +190,8 @@ public class MoneyFlowDataProvider {
 
     /**
      * 获取地区版块资金流数据
-     * @return
+     * @param type type
+     * @return stock data list
      */
     public static List<StockData> getRegion(String type){
         List<String> list = collectRegion(type);

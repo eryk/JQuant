@@ -45,8 +45,8 @@ public class RealTimeDataProvider {
 
     /**
      * 获取实时股票交易数据
-     * @param symbol
-     * @return
+     * @param symbol stock symbol
+     * @return stock data list
      */
     public static StockData get(String symbol){
 
@@ -86,8 +86,8 @@ public class RealTimeDataProvider {
 
     /**
      * 获取原始数据对应的列名称
-     * @param i
-     * @return
+     * @param i column id
+     * @return column name
      */
     private static String getColumnName(int i) {
         return StockConstants.REALTIME.get(i);

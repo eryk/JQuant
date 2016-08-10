@@ -33,10 +33,10 @@ public class Provider {
     /**
      * 获取指定时间段内的日线股票数据
      *
-     * @param symbol
+     * @param symbol stock symbol
      * @param startDate 格式：yyyyMMdd
      * @param stopDate  格式：yyyyMMdd
-     * @return
+     * @return stock data list
      */
     public static List<StockData> dailyData(String symbol, String startDate, String stopDate) {
         return DailyDataProvider.getFQ(symbol, startDate, stopDate);
@@ -53,8 +53,8 @@ public class Provider {
     /**
      * 获取日线级别最近250天历史数据
      *
-     * @param symbol
-     * @return
+     * @param symbol stock symbol
+     * @return stock data list
      */
     public static List<StockData> dailyData(String symbol) {
         return dailyData(symbol, true);
@@ -62,9 +62,9 @@ public class Provider {
 
     /**
      * 获取日线级别最近250天历史数据
-     *
-     * @param symbol
-     * @return
+     * @param symbol stock symbol
+     * @param isFQ is fq
+     * @return stock data list
      */
     public static List<StockData> dailyData(String symbol,boolean isFQ) {
         DateRange range = DateRange.getRange(250);
@@ -74,9 +74,9 @@ public class Provider {
     /**
      * 获取指定天数内的日线股票数据
      *
-     * @param symbol 股票代码，例如：600001
-     * @param period 时间长度，最近多少个交易日内的股票数据，单位：天
-     * @return
+     * @param symbol stock symbol
+     * @param period time period
+     * @return stock data list
      */
     public static List<StockData> dailyData(String symbol, int period) {
         return dailyData(symbol,period,true);
@@ -85,9 +85,10 @@ public class Provider {
     /**
      * 获取指定天数内的日线股票数据
      *
-     * @param symbol 股票代码，例如：600001
-     * @param period 时间长度，最近多少个交易日内的股票数据，单位：天
-     * @return
+     * @param symbol stock symbol
+     * @param period time period
+     * @param isFQ is fq
+     * @return stock data list
      */
     public static List<StockData> dailyData(String symbol, int period,boolean isFQ) {
         DateRange dateRange = DateRange.getRange(period);
@@ -104,10 +105,10 @@ public class Provider {
      * 创业板综:1399102
      * 中小板指:1399005
      * 中小板综:1399101
-     * @param symbol
-     * @param startDate
-     * @param stopDate
-     * @return
+     * @param symbol index symbol
+     * @param startDate yyyyMMdd
+     * @param stopDate yyyyMMdd
+     * @return stock data list
      */
     public static List<StockData> dailyDataZS(String symbol,String startDate,String stopDate){
         return DailyDataProvider.getZS(symbol, startDate, stopDate);
@@ -125,9 +126,8 @@ public class Provider {
 
     /**
      * 获取实时数据股票数据
-     *
-     * @param symbol
-     * @return
+     * @param symbol stock symbol
+     * @return stock data list
      */
     public static StockData realtimeData(String symbol) {
         return RealTimeDataProvider.get(symbol);
@@ -136,9 +136,9 @@ public class Provider {
     /**
      * 获取最新10天股票分钟级别数据
      *
-     * @param symbol
+     * @param symbol stock symbol
      * @param type   参数值：5,15,30,60
-     * @return
+     * @return stock data list
      */
     public static List<StockData> minuteData(String symbol, String type) {
         DateRange range = DateRange.getRange(120);//数据源不够30天
@@ -149,11 +149,11 @@ public class Provider {
     /**
      * 获取指定时间段内历史分钟级别数据，受数据源限制
      *
-     * @param symbol
+     * @param symbol stock symbol
      * @param startDate 格式：yyyyMMdd
      * @param stopDate  格式：yyyyMMdd
-     * @param type
-     * @return
+     * @param type 5,15,30,60
+     * @return stock data list
      */
     public static List<StockData> minuteData(String symbol, String startDate, String stopDate, String type) {
         return MinuteDataProvider.get(symbol, startDate, stopDate, type);
@@ -161,9 +161,8 @@ public class Provider {
 
     /**
      * 获取个股当日资金流数据
-     *
-     * @param symbol
-     * @return
+     * @param symbol stock symbol
+     * @return stock data list
      */
     public static StockData moneyFlowData(String symbol) {
         return MoneyFlowDataProvider.get(symbol);
@@ -172,10 +171,10 @@ public class Provider {
     /**
      * 获取个股指定时间段内资金流数据，受数据源限制
      *
-     * @param symbol
+     * @param symbol stock symbol
      * @param startDate 格式：yyyyMMdd
      * @param stopDate  格式：yyyyMMdd
-     * @return
+     * @return stock data list
      */
     public static List<StockData> moneyFlowData(String symbol, String startDate, String stopDate) {
         return MoneyFlowDataProvider.get(symbol, startDate, stopDate);
@@ -183,8 +182,7 @@ public class Provider {
 
     /**
      * 大盘资金流向历史数据
-     *
-     * @return
+     * @return stock data list
      */
     public static List<StockData> moneyFlowDapanData() {
         return MoneyFlowDataProvider.getDapan();
@@ -194,7 +192,7 @@ public class Provider {
      * 获取今天、5日、10日行业版块资金流数据
      *
      * @param type 1,5,10
-     * @return
+     * @return stock data list
      */
     public static List<StockData> moneyFlowIndustryData(String type) {
         return MoneyFlowDataProvider.getIndustry(type);
@@ -204,7 +202,7 @@ public class Provider {
      * 获取今天、5日、10日行业版块资金流数据
      *
      * @param type 输入值：1,5,10
-     * @return
+     * @return stock data list
      */
     public static List<StockData> moneyFlowConceptData(String type) {
         return MoneyFlowDataProvider.getConcept(type);
@@ -214,7 +212,7 @@ public class Provider {
      * 获取今天、5日、10日行业版块资金流数据
      *
      * @param type 1,5,10
-     * @return
+     * @return stock data list
      */
     public static List<StockData> moneyFlowRegionData(String type) {
         return MoneyFlowDataProvider.getRegion(type);
@@ -223,10 +221,10 @@ public class Provider {
     /**
      * 历史财报
      *
-     * @param symbol
+     * @param symbol stock symbol
      * @param startDate 格式：yyyyMMdd
      * @param stopDate  格式：yyyyMMdd
-     * @return
+     * @return stock data list
      */
     public static List<StockData> financeData(String symbol, String startDate, String stopDate) {
         return FinanceDataProvider.get(symbol, startDate, stopDate);
@@ -234,9 +232,8 @@ public class Provider {
 
     /**
      * 最新一期财报数据
-     *
-     * @param symbol
-     * @return
+     * @param symbol stock symbol
+     * @return stock data list
      */
     public static StockData financeData(String symbol) {
         DateRange range = DateRange.getRange(365);
@@ -250,9 +247,8 @@ public class Provider {
 
     /**
      * 股票年报数据
-     *
-     * @param symbol
-     * @return
+     * @param symbol stock symbol
+     * @return stock data list
      */
     public static List<StockData> financeYearData(String symbol) {
         return FinanceDataProvider.getYear(symbol);
@@ -261,8 +257,8 @@ public class Provider {
     /**
      * 获取最新一天股票逐笔数据
      *
-     * @param symbol
-     * @return
+     * @param symbol stock symbol
+     * @return tick list
      */
     public static List<Tick> tickData(String symbol) {
         return TickDataProvider.get(symbol);
@@ -271,9 +267,9 @@ public class Provider {
     /**
      * 获取指定日期逐笔股票数据
      *
-     * @param symbol
+     * @param symbol stock symbol
      * @param date   格式: yyyyMMdd
-     * @return
+     * @return tick data list
      */
     public static List<Tick> tickData(String symbol, String date) {
         String _date = Utils.formatDate(Utils.str2Date(date, "yyyyMMdd"), "yyyy-MM-dd");
@@ -284,18 +280,16 @@ public class Provider {
      * 获取股票版块数据
      * map key: 股票的版块分类名称，包含三项：概念，地区，行业
      * value: list是版块分类下的版块，每个版块包含一个股票列表
-     *
-     * @return
+     * @return stock data list
      */
     public static Map<String, List<StockBlock>> stockBlock() {
         return StockCategory.getCategory();
     }
 
     /**
-     * 获取某个股票在大分类下的具体分类
-     *
-     * @param type 概念，行业，地域
-     * @return
+     * 获取某个股票在大分类下的具体分类:概念，行业，地域
+     * @param type category
+     * @return stock data list
      */
     public static Map<String, Set<String>> stockCategory(String type) {
         return StockCategory.getStockCategory(type);
@@ -303,8 +297,7 @@ public class Provider {
 
     /**
      * 获取股票列表
-     *
-     * @return
+     * @return stock data list
      */
     public static List<String> stockList() {
         return StockList.getSymbols();

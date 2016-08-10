@@ -32,8 +32,8 @@ public class Quants {
      * redis
      * hbase
      *
-     * @param config
-     * @return
+     * @param config config
+     * @return quants instance
      */
     public Quants db(Map<String, String> config) {
         //TODO

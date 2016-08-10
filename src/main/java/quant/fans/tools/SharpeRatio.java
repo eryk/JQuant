@@ -12,7 +12,7 @@ import java.util.List;
 public class SharpeRatio {
     /**
      * 夏普比率 = 实际回报率 / 回报率的标准差
-     * @brief Computes the Sharpe ratio for a list of returns.
+     * Computes the Sharpe ratio for a list of returns.
      *
      * @param returns The returns
      * @param rf The risk free average return

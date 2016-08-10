@@ -166,8 +166,8 @@ public class Utils {
 
     /**
      * 从rowkey的bytes中获取symbol和date信息
-     * @param rowkey
-     * @return
+     * @param rowkey rowkey
+     * @return return
      */
     public static String getStockSymbol(byte[] rowkey){
         if(rowkey.length == 22){ //4byte_md5_prefix + symbol + yyyyMMddHHmm
@@ -435,9 +435,9 @@ public class Utils {
 
     /**
      * 将StockDatas的一列值转化成double[]
-     * @param stockDatas
-     * @param column
-     * @return
+     * @param stockDatas stock data list
+     * @param column column
+     * @return return
      */
     public static double[] toDoubleArray(List<StockData> stockDatas,String column){
         List<Double> values = stockDatas.parallelStream().map(stockData -> stockData.get(column)).collect(Collectors.toList());
@@ -468,7 +468,7 @@ public class Utils {
      * 周一到周五
      * 上午：09:30-11:30
      * 下午：13:00-15:00
-     * @return
+     * @return if now is trading time,return true, else return false
      */
     public static boolean isTradingTime(){
         DateTime dateTime = new DateTime();
@@ -490,7 +490,7 @@ public class Utils {
      * 周一到周五
      * 上午：09:30-11:30
      * 下午：13:00-14:45
-     * @return
+     * @return if now is trading time,return true, else return false
      */
     public static boolean isNearTradingTime(){
         DateTime dateTime = new DateTime();
@@ -509,7 +509,9 @@ public class Utils {
 
     /**
      * 获取最新的交易日期
-     * @return
+     * @param date date
+     * @param format format
+     * @return string
      */
     public static String getRecentWorkingDay(Date date,String format){
         DateTime dt = new DateTime(date);
@@ -525,11 +527,11 @@ public class Utils {
 
     /**
      * 获取数据复权数据
-     * @param stockData
-     * @param sg
-     * @param zz
-     * @param px
-     * @return
+     * @param stockData stock data
+     * @param sg 送股
+     * @param zz zz
+     * @param px 派息
+     * @return stock data
      */
     public static StockData fuquan(StockData stockData,double sg,double zz,double px){
         double percent = (stockData.get("close") - px/10) / ((zz+10)/10+sg/10) / stockData.get("close");
@@ -582,6 +584,7 @@ public class Utils {
      * @param b1 The first byte array.
      * @param sep The separator to use.
      * @param b2 The second byte array.
+     * @return string
      */
     public static String toString(final byte [] b1,
                                   String sep,

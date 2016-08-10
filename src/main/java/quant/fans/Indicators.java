@@ -110,8 +110,8 @@ public class Indicators {
 
     /**
      * 计算dma
-     * @param prices
-     * @return
+     * @param prices prices
+     * @return dma
      */
     public double[][] dma(double[] prices){
         double[] ma10 = sma(prices, 10);
@@ -142,11 +142,11 @@ public class Indicators {
     
     /**
      *
-     * @param prices
-     * @param optInFastPeriod
-     * @param optInSlowPeriod
-     * @param optInSignalPeriod
-     * @return
+     * @param prices prices
+     * @param optInFastPeriod optInFastPeriod
+     * @param optInSlowPeriod optInSlowPeriod
+     * @param optInSignalPeriod optInSignalPeriod
+     * @return macd
      *      macd[0][]:dif
      *      macd[1][]:dea
      *      macd[2][]:macd
@@ -209,11 +209,11 @@ public class Indicators {
 
     /**
      *
-     * @param prices
-     * @param optInTimePeriod
-     * @param optInNbDevUp
-     * @param optInNbDevDn
-     * @return
+     * @param prices prices
+     * @param optInTimePeriod optInTimePeriod
+     * @param optInNbDevUp optInNbDevUp
+     * @param optInNbDevDn optInNbDevDn
+     * @return boll
      *      boll[0][]: upper
      *      boll[1][]: mid
      *      boll[2][]: lower
@@ -264,10 +264,10 @@ public class Indicators {
 
     /**
      * kdj指标,默认参数9,3,3
-     * @param high
-     * @param low
-     * @param close
-     * @return
+     * @param high high
+     * @param low low
+     * @param close close
+     * @return kdj
      */
     public double[][] kdj(double[] high,double[] low,double[]close){
         int length = high.length;

@@ -5,11 +5,20 @@
 # Maven依赖
 
 ```xml
-<dependency>
-    <groupId>net.jquant</groupId>
-    <artifactId>JQuant</artifactId>
-    <version>0.1</version>
-</dependency>
+<dependencies>
+    <dependency>
+        <groupId>net.jquant</groupId>
+        <artifactId>JQuant</artifactId>
+        <version>0.1</version>
+    </dependency>
+</dependencies>
+
+<repositories>
+    <repository>
+        <id>oss</id>
+        <url>https://oss.sonatype.org/content/groups/public/</url>
+    </repository>
+</repositories>
 ```
 
 # 示例

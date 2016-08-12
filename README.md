@@ -86,6 +86,23 @@ for(Map.Entry<String,Double> data : stockData.entrySet()){
 
 ## 股票数据 quants.data
 
+net.jquant.provider包提供了股票相关的数据获取类
+
+### Provider列表如下：
+
+* DailyDataProvider：日线级别数据
+* MinuteDataProvider：分钟级别股票数据，可获得5、15、30、60分钟级别股票数据
+* RealTimeDataProvider：实时股票数据
+* StockIndexDataProvider：指数实时行情数据
+* TickDataProvider：股票逐笔数据
+* TopListDataProvider：龙虎榜数据
+* ReportDataProvider：研报数据
+* ReferenceDataProvider：分红数据
+* MoneyFlowDataProvider：股票资金流数据
+* FinanceDataProvider：个股财务报表数据
+
+> net.jquant.provider.Provider类里的static方法汇总了全部provider方法，一般情况，使用Provider类就可以满足数据查询需求。
+
 ## 股票列表 quants.stocks
 
 ## 指标计算 quants.indicator

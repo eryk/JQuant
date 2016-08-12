@@ -69,6 +69,19 @@ public class Main {
 
 > Quants quants = new Quants();
 
+## StockData
+
+表示股票的一个时间片的数据，继承自LinkedHashMap<String,Double>，存储属性名称和double类型数值。
+
+```java
+StockData stockData = Provider.realtimeData("000001");
+System.out.println("股票名称:" + stockData.name);
+System.out.println("股票代码:" + stockData.symbol);
+for(Map.Entry<String,Double> data : stockData.entrySet()){
+    System.out.println(data.getKey() + "=" + data.getValue());
+}
+```
+
 ## 股票数据 quants.data
 
 ## 股票列表 quants.stocks

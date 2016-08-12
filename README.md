@@ -82,6 +82,8 @@ for(Map.Entry<String,Double> data : stockData.entrySet()){
 }
 ```
 
+不同Provider返回的StockData的数据项不同，具体信息查询[字段说明](https://github.com/eryk/JQuant/wiki/StockData%E5%AD%97%E6%AE%B5%E8%AF%B4%E6%98%8E)
+
 ## 股票数据 quants.data
 
 ## 股票列表 quants.stocks

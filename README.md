@@ -105,6 +105,39 @@ net.jquant.provider包提供了股票相关的数据获取类
 
 ## 股票列表 quants.stocks
 
+`StockList` 用于获取股票列表，并提供一些过滤和处理接口对股票进行筛选。
+
 ## 指标计算 quants.indicator
 
+`net.jquant。Indicators` 是对[Ta-lib](http://ta-lib.org/function.html)库的封装，提供常用指标计算，返回StockData list对象。同时也提供了一些Ta-lib没有的指标计算。
+
+支持的指标包括：
+
+* sma：简单移动平均线
+* ema：指数移动平均线
+* dma：平均线差
+* macd：指数平滑异同平均线
+* boll：布林线
+* kdj：随机指标
+* rsi：强弱指标
+* sar：抛物线指标或停损转向操作点指标
+* adx：平均趋向指数
+* adxr：趋向指标
+* cci：顺势指标
+* mfi：资金流量指标
+* obv：能量潮又称为平衡交易量
+* roc：变动率指标
+* rocP：Rate of change Percentage: (price-prevPrice)/prevPrice
+* trix：三重指数平滑平均线
+* willR：威廉指标
+* ad：收集派发摆荡指标
+* aroon：阿隆指标
+* aroonOsc：Aroon Oscillator
+* bop：均势指标
+* kama：适应性移动平均线
+* trima：三角移动平均线
+
 ## 策略计算 quants.strategy
+
+* `StragegyUtils` 常用策略
+* `TDXFunction` 通达信常用指标

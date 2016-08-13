@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
     <meta charset="UTF-8">
-    <title>Jquant by eryk</title>
+    <title>JQuant by eryk</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
@@ -11,7 +11,7 @@
   </head>
   <body>
     <section class="page-header">
-      <h1 class="project-name">Jquant</h1>
+      <h1 class="project-name">JQuant</h1>
       <h2 class="project-tagline">JQuant是使用java语言编写的量化开发工具箱，使用JQuant可以获取股票数据，及各种常用指标和策略的计算。方便Java爱好者进行量化投资研究。 QQ群：281599099，微信订阅号：quantfan</h2>
       <a href="https://github.com/eryk/JQuant" class="btn">View on GitHub</a>
       <a href="https://github.com/eryk/JQuant/zipball/master" class="btn">Download .zip</a>
@@ -21,8 +21,6 @@
     <section class="main-content">
       <h1>
 <a id="jquant" class="anchor" href="#jquant" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>JQuant</h1>
-
-<p><img src="https://github.com/eryk/JQuant/blob/test/qrcode_for_gh_188ebb8e2c0a_258.jpg" alt="微信订阅号" title="微信订阅号"></p>
 
 <h1>
 <a id="maven依赖" class="anchor" href="#maven%E4%BE%9D%E8%B5%96" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Maven依赖</h1>
@@ -93,20 +91,92 @@
 <p>Quants quants = new Quants();</p>
 </blockquote>
 
+<p><code>StockData</code>表示股票的一个时间片的数据，继承自LinkedHashMap，存储属性名称和double类型数值。</p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">StockData</span> stockData <span class="pl-k">=</span> <span class="pl-smi">Provider</span><span class="pl-k">.</span>realtimeData(<span class="pl-s"><span class="pl-pds">"</span>000001<span class="pl-pds">"</span></span>);
+<span class="pl-smi">System</span><span class="pl-k">.</span>out<span class="pl-k">.</span>println(<span class="pl-s"><span class="pl-pds">"</span>股票名称:<span class="pl-pds">"</span></span> <span class="pl-k">+</span> stockData<span class="pl-k">.</span>name);
+<span class="pl-smi">System</span><span class="pl-k">.</span>out<span class="pl-k">.</span>println(<span class="pl-s"><span class="pl-pds">"</span>股票代码:<span class="pl-pds">"</span></span> <span class="pl-k">+</span> stockData<span class="pl-k">.</span>symbol);
+<span class="pl-k">for</span>(<span class="pl-smi">Map</span><span class="pl-k">.</span><span class="pl-k">Entry&lt;<span class="pl-smi">String</span>,<span class="pl-smi">Double</span>&gt;</span> data <span class="pl-k">:</span> stockData<span class="pl-k">.</span>entrySet()){
+    <span class="pl-smi">System</span><span class="pl-k">.</span>out<span class="pl-k">.</span>println(data<span class="pl-k">.</span>getKey() <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">"</span>=<span class="pl-pds">"</span></span> <span class="pl-k">+</span> data<span class="pl-k">.</span>getValue());
+}</pre></div>
+
+<p>不同Provider返回的StockData的数据项不同，具体信息查询<a href="https://github.com/eryk/JQuant/wiki/StockData%E5%AD%97%E6%AE%B5%E8%AF%B4%E6%98%8E">字段说明</a></p>
+
 <h2>
 <a id="股票数据-quantsdata" class="anchor" href="#%E8%82%A1%E7%A5%A8%E6%95%B0%E6%8D%AE-quantsdata" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>股票数据 quants.data</h2>
+
+<p>net.jquant.provider包提供了股票相关的数据获取类</p>
+
+<h3>
+<a id="provider列表如下" class="anchor" href="#provider%E5%88%97%E8%A1%A8%E5%A6%82%E4%B8%8B" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Provider列表如下：</h3>
+
+<ul>
+<li>DailyDataProvider：日线级别数据</li>
+<li>MinuteDataProvider：分钟级别股票数据，可获得5、15、30、60分钟级别股票数据</li>
+<li>RealTimeDataProvider：实时股票数据</li>
+<li>StockIndexDataProvider：指数实时行情数据</li>
+<li>TickDataProvider：股票逐笔数据</li>
+<li>TopListDataProvider：龙虎榜数据</li>
+<li>ReportDataProvider：研报数据</li>
+<li>ReferenceDataProvider：分红数据</li>
+<li>MoneyFlowDataProvider：股票资金流数据</li>
+<li>FinanceDataProvider：个股财务报表数据</li>
+</ul>
+
+<blockquote>
+<p>net.jquant.provider.Provider类里的static方法汇总了全部provider方法，一般情况，使用Provider类就可以满足数据查询需求。</p>
+</blockquote>
 
 <h2>
 <a id="股票列表-quantsstocks" class="anchor" href="#%E8%82%A1%E7%A5%A8%E5%88%97%E8%A1%A8-quantsstocks" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>股票列表 quants.stocks</h2>
 
+<p><code>StockList</code> 用于获取股票列表，并提供一些过滤和处理接口对股票进行筛选。</p>
+
 <h2>
 <a id="指标计算-quantsindicator" class="anchor" href="#%E6%8C%87%E6%A0%87%E8%AE%A1%E7%AE%97-quantsindicator" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>指标计算 quants.indicator</h2>
+
+<p><code>net.jquant。Indicators</code> 是对<a href="http://ta-lib.org/function.html">Ta-lib</a>库的封装，提供常用指标计算，返回StockData list对象。同时也提供了一些Ta-lib没有的指标计算。</p>
+
+<p>支持的指标包括：</p>
+
+<ul>
+<li>sma：简单移动平均线</li>
+<li>ema：指数移动平均线</li>
+<li>dma：平均线差</li>
+<li>macd：指数平滑异同平均线</li>
+<li>boll：布林线</li>
+<li>kdj：随机指标</li>
+<li>rsi：强弱指标</li>
+<li>sar：抛物线指标或停损转向操作点指标</li>
+<li>adx：平均趋向指数</li>
+<li>adxr：趋向指标</li>
+<li>cci：顺势指标</li>
+<li>mfi：资金流量指标</li>
+<li>obv：能量潮又称为平衡交易量</li>
+<li>roc：变动率指标</li>
+<li>rocP：Rate of change Percentage: (price-prevPrice)/prevPrice</li>
+<li>trix：三重指数平滑平均线</li>
+<li>willR：威廉指标</li>
+<li>ad：收集派发摆荡指标</li>
+<li>aroon：阿隆指标</li>
+<li>aroonOsc：Aroon Oscillator</li>
+<li>bop：均势指标</li>
+<li>kama：适应性移动平均线</li>
+<li>trima：三角移动平均线</li>
+</ul>
 
 <h2>
 <a id="策略计算-quantsstrategy" class="anchor" href="#%E7%AD%96%E7%95%A5%E8%AE%A1%E7%AE%97-quantsstrategy" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>策略计算 quants.strategy</h2>
 
+<ul>
+<li>
+<code>StragegyUtils</code> 常用策略</li>
+<li>
+<code>TDXFunction</code> 通达信常用指标</li>
+</ul>
+
       <footer class="site-footer">
-        <span class="site-footer-owner"><a href="https://github.com/eryk/JQuant">Jquant</a> is maintained by <a href="https://github.com/eryk">eryk</a>.</span>
+        <span class="site-footer-owner"><a href="https://github.com/eryk/JQuant">JQuant</a> is maintained by <a href="https://github.com/eryk">eryk</a>.</span>
 
         <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
       </footer>

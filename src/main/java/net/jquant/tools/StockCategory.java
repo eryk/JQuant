@@ -135,6 +135,9 @@ public class StockCategory {
      * @return stock category
      */
     public static Map<String,Set<String>> getStockCategory(String type){
+        if(category.size() == 0){
+            category = getCategory();
+        }
         List<StockBlock> stockBlocks = category.get(type);
         Map<String,Set<String>> symbolMap = Maps.newTreeMap();
         if(stockBlocks!=null){

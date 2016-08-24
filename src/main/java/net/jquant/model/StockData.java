@@ -14,16 +14,34 @@ import java.util.Map;
  */
 public class StockData extends LinkedHashMap<String, Double> implements Comparable<StockData> {
 
-    public String symbol;     //代码
+    /**
+     * 股票代码
+     */
+    public String symbol;
 
-    public String name;       //名称
+    /**
+     * 股票名称
+     */
+    public String name;
 
-    public Date date;       //时间
+    /**
+     * 数据时间点
+     */
+    public Date date;
 
-    public BoardType boardType;  //版块信息：主版，中小板，创业板
+    /**
+     * 版块信息：主版，中小板，创业板
+     */
+    public BoardType boardType;
 
-    public StockMarketType stockMarketType; //市场：深市，沪市
+    /**
+     * 市场：深市，沪市
+     */
+    public StockMarketType stockMarketType;
 
+    /**
+     * 属性值
+     */
     public Map<String, String> attribute = Maps.newHashMap();
 
     public StockData() {

@@ -47,7 +47,7 @@ public class StockList {
         return new StockList();
     }
 
-    public StockList(){
+    private StockList(){
         init();
     }
 

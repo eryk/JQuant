@@ -1,5 +1,7 @@
 package net.jquant.common;
 
-public class Context {
+import net.jquant.tools.StockList;
 
+public class Context {
+    private StockList stockList;
 }

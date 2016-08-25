@@ -24,6 +24,7 @@ public class Analyzer {
         Map<String, Set<String>> gn = StockCategory.getStockCategory("概念");
         Map<String, Set<String>> hy = StockCategory.getStockCategory("行业");
 
+        System.out.println("名称,代码,流通市值,市盈率,换手率,行业,概念");
         for(StockData stockData:stockDatas){
             if(!Strings.isNullOrEmpty(stockData.symbol)) {
                 StockData realtimeData = quant.data.realtimeData(stockData.symbol);
@@ -37,7 +38,13 @@ public class Analyzer {
                 if(stockDatas1.size() < 60){
                     continue;
                 }
-                System.out.println(stockData.name + "," + stockData.symbol + "," + hy.get(stockData.symbol) + "," + gn.get(stockData.symbol));
+                System.out.println(stockData.name + ","
+                        + stockData.symbol + ","
+                        + stockData.get("marketValue") + ","
+                        + stockData.get("PE") + ","
+                        + stockData.get("turnoverRate") + ","
+                        + hy.get(stockData.symbol) + ","
+                        + gn.get(stockData.symbol));
             }
         }
     }

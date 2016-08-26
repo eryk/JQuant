@@ -5,6 +5,8 @@ public class FixedSlippage implements Slippage{
 
     private double slip = 0.02;
 
+    public FixedSlippage(){}
+
     public FixedSlippage(double slip){
         this.slip = slip;
     }

@@ -2,7 +2,7 @@ package net.jquant.trade;
 
 //百分比滑点
 public class PriceRelatedSlippage implements Slippage{
-    private double slip;
+    private double slip = 0.002;
 
     public PriceRelatedSlippage(double slip){
         this.slip = slip;

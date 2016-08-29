@@ -2,6 +2,7 @@ package net.jquant.trade;
 
 import java.time.LocalDateTime;
 
+//持有一只股票详情
 public class Position {
     public String stockName;   //证券名称
     public LocalDateTime ts;    //更新时间戳

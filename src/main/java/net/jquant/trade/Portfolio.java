@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class Account {
+public class Portfolio {
     public static final String DEFAULT_NAME = "JQuant";
     private String name;
 
@@ -20,17 +20,17 @@ public class Account {
     //记录账户当前持仓情况
     private Map<String,Position> positions = Maps.newConcurrentMap();
 
-    public Account(String name, LocalDateTime startDate){
+    public Portfolio(String name, LocalDateTime startDate){
         this.name = name;
         this.ts = startDate;
         records.put(ts, new Record(ts));
     }
 
-    public Account(){
+    public Portfolio(){
         this(DEFAULT_NAME, LocalDateTime.MIN);
     }
 
-    public Account(String name){
+    public Portfolio(String name){
         this(name, LocalDateTime.MIN);
     }
 

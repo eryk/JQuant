@@ -127,6 +127,17 @@ public class StockList {
         return stockDataList;
     }
 
+    public List<String> get(List<StockData> stockDatas){
+        List<String> stockList = Lists.newLinkedList();
+        for(StockData stockData : stockDatas){
+            if(Strings.isNullOrEmpty(stockData.symbol)){
+                continue;
+            }
+            stockList.add(stockData.symbol);
+        }
+        return stockList;
+    }
+
     private boolean filter(StockData stockData,List<String> filters){
         for(String filter:filters){
             if("st".equals(filter.toLowerCase().trim())){

@@ -316,17 +316,17 @@ public class MoneyFlowDataProvider {
     }
 
     public static void main(String[] args) {
-//        List<StockData> stockDataList = MoneyFlowDataProvider.get("600376", "20150801", "20150830");
-//        for(StockData stockData :stockDataList){
-//            System.out.println(stockData);
-//            Utils.printMap(stockData);
-//        }
-
-        List<StockData> industry = MoneyFlowDataProvider.getIndustry("1");
-        for (StockData stockData : industry) {
+        List<StockData> stockDataList = MoneyFlowDataProvider.get("600376", "20150801", "20160830");
+        for(StockData stockData :stockDataList){
             System.out.println(stockData);
             Utils.printMap(stockData);
         }
+
+//        List<StockData> industry = MoneyFlowDataProvider.getIndustry("1");
+//        for (StockData stockData : industry) {
+//            System.out.println(stockData);
+//            Utils.printMap(stockData);
+//        }
 
     }
 }

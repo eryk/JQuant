@@ -6,8 +6,12 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import net.jquant.common.StockConstants;
+import net.jquant.common.StockDataParseException;
 import net.jquant.common.Utils;
 import net.jquant.downloader.Downloader;
+import net.jquant.downloader.THSJSDownloader;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -32,79 +36,6 @@ public class DailyDataProvider {
     private static final Logger LOG = LoggerFactory.getLogger(DailyDataProvider.class);
 
     public static final String DAILY_DATA_URL = "http://quotes.money.163.com/service/chddata.html?code=%s&start=%s&end=%s&fields=TCLOSE;HIGH;LOW;TOPEN;LCLOSE;CHG;PCHG;TURNOVER;VOTURNOVER;VATURNOVER;TCAP;MCAP";
-
-    public static final String DAILY_PRICE_HFQ_URl = "http://vip.stock.finance.sina.com.cn/api/json.php/BasicStockSrv.getStockFuQuanData?symbol=%s&type=hfq";
-
-    public static final String DAILY_HFQ_URL = "http://vip.stock.finance.sina.com.cn/corp/go.php/vMS_FuQuanMarketHistory/stockid/%s.phtml"; //?year=%s&jidu=%s
-
-    /**
-     * 参数1：6位代码
-     * year：年份
-     * jidu：季度，1，2，3，4
-     */
-    public static final String DAILY_HFQ_PARAM_URL = "http://vip.stock.finance.sina.com.cn/corp/go.php/vMS_FuQuanMarketHistory/stockid/%s.phtml?year=%s&jidu=%s";
-
-    /**
-     * 获取前复权数据
-     */
-    private static Map<String, StockData> qfqData(String symbol, String startDate, String stopDate) {
-        Map<String, StockData> stockDataMap = Maps.newHashMap();
-
-        String hfqURL = String.format(DAILY_HFQ_URL, symbol);
-        String data = Downloader.download(hfqURL, "gb2312");
-        try {
-            Elements select = Jsoup.parse(data).getElementById("con02-4").getElementsByTag("select").get(0).getElementsByTag("option");
-            List<String> pages = Lists.newArrayListWithCapacity(50);
-            for (Element option : select) {
-                pages.add(option.text() + "" + "1231");
-                pages.add(option.text() + "" + "0930");
-                pages.add(option.text() + "" + "0630");
-                pages.add(option.text() + "" + "0331");
-            }
-            Collections.reverse(pages);
-
-
-            for (String page : pages) {
-                Date date = Utils.str2Date(page, "yyyyMMdd");
-                //TODO date < stop
-                if (date.getTime() > Utils.str2Date(startDate, "yyyyMMdd").getTime() /*&& date.getTime() < Utils.str2Date(stopDate,"yyyyMMdd").getTime()*/) {
-                    String url = String.format(DAILY_HFQ_PARAM_URL, symbol, Utils.formatDate(date, "yyyy"), getQuarter(date));
-                    data = Downloader.download(url, "gb2312");
-                    Elements tr = Jsoup.parse(data).getElementById("FundHoldSharesTable").getElementsByTag("tbody").get(0).getElementsByTag("tr");
-                    for (int i = 1; i < tr.size(); i++) {
-                        Elements td = tr.get(i).getElementsByTag("td");
-                        Date stockDate = Utils.str2Date(td.get(0).text(), "yyyy-MM-dd");
-                        if (stockDate.getTime() >= Utils.str2Date(startDate, "yyyyMMdd").getTime() && stockDate.getTime() <= Utils.str2Date(stopDate, "yyyyMMdd").getTime()) {
-                            StockData stockData = new StockData(symbol);
-
-                            stockData.date = Utils.str2Date(td.get(0).text(), "yyyy-MM-dd");
-                            stockData.put(StockConstants.OPEN, Double.parseDouble(td.get(1).text()));
-                            stockData.put(StockConstants.HIGH, Double.parseDouble(td.get(2).text()));
-                            stockData.put(StockConstants.CLOSE, Double.parseDouble(td.get(3).text()));
-                            stockData.put(StockConstants.LOW, Double.parseDouble(td.get(4).text()));
-                            stockData.put(StockConstants.VOLUME, Double.parseDouble(td.get(5).text()) / 100);  //单位：手
-                            stockData.put(StockConstants.AMOUNT, Double.parseDouble(td.get(6).text()) / 10000);//单位：万
-                            stockData.put(StockConstants.FACTOR, Double.parseDouble(td.get(7).text()));
-                            stockDataMap.put(td.get(0).text().replaceAll("-", ""), stockData);
-                        }
-                    }
-                }
-            }
-        } catch (Exception e) {
-            LOG.error("fail to get from url " + hfqURL);
-        }
-
-        return stockDataMap;
-    }
-
-    /**
-     * 根据时间获取季度
-     * @param date date
-     * @return quarter
-     */
-    public static int getQuarter(Date date) {
-        return (date.getMonth() / 3) + 1;
-    }
 
     private static List<StockData> getDailyDataWithURL(String symbol,String url){
         List<StockData> stocks = Lists.newLinkedList();
@@ -142,11 +73,6 @@ public class DailyDataProvider {
         return Lists.reverse(stocks);
     }
 
-    private static List<StockData> getDailyDataWithOutFQ(String symbol, String startDate, String stopDate) {
-        String url = getPath(symbol, startDate, stopDate);
-        return getDailyDataWithURL(symbol,url);
-    }
-
     /**
      * 获取指数日线数据
      * 上证综指:0000001
@@ -179,8 +105,79 @@ public class DailyDataProvider {
      * @param stopDate yyyyMMdd
      * @return data list
      */
-    public static List<StockData> get(String symbol,String startDate,String stopDate){
-        return getDailyDataWithOutFQ(symbol, startDate, stopDate);
+    public static List<StockData> get(String symbol,String startDate,String stopDate) throws StockDataParseException {
+        String lastUrl = "http://d.10jqka.com.cn/v2/line/hs_%s/01/last.js";
+        Map<String, Object> stringObjectMap = THSJSDownloader.download(lastUrl, symbol);
+        Map<String, String> years = (Map<String, String>) stringObjectMap.get("year");
+        String yearUrl = "http://d.10jqka.com.cn/v2/line/hs_%s/01/%s.js";
+        List<StockData> stockDatas = Lists.newLinkedList();
+        for (String year : years.keySet()) {
+            Map<String, Object> tmp = THSJSDownloader.download(String.format(yearUrl, symbol, year));
+            if (tmp == null || tmp.size() == 0){
+                throw new StockDataParseException();
+            }
+            String data = (String) tmp.get("data");
+            if(data == null){
+                throw new StockDataParseException();
+            }
+            String[] array = data.split(";");
+            for(String line:array){
+                StockData stockData = parseDailyData(symbol,line);
+                if(stockData != null){
+                    stockDatas.add(stockData);
+                }else{
+                    throw new StockDataParseException();
+                }
+            }
+        }
+        if(stockDatas.size() > 0){
+            StockData stockData = stockDatas.get(stockDatas.size()-1);
+            if(!Utils.isToday(stockData.date)){
+                stockDatas.add(today(symbol));
+            }
+        }
+        return stockDatas;
+    }
+
+    private static StockData today(String symbol) throws StockDataParseException{
+        String url = "http://d.10jqka.com.cn/v2/line/hs_%s/01/today.js";
+        Map<String, Object> download = THSJSDownloader.download(url, symbol);
+        if(download == null || download.size() == 0){
+            throw new StockDataParseException();
+        }
+        Map<String,Object> values = (Map<String, Object>) download.get("hs_" + symbol);
+        if(values == null || values.size() == 0){
+            throw new StockDataParseException();
+        }
+        StockData stockData = new StockData(symbol);
+        stockData.date = DateTimeFormat.forPattern("yyyyMMddHHmm").parseLocalDateTime(
+                String.valueOf(values.get("1")) + String.valueOf(values.get("dt"))).toDate();
+        stockData.put("open",Double.parseDouble((String) values.get("7")));
+        stockData.put("high",Double.parseDouble((String) values.get("8")));
+        stockData.put("low",Double.parseDouble((String) values.get("9")));
+        stockData.put("close",Double.parseDouble((String) values.get("11")));
+        stockData.put("volume", (Double) values.get("13") /100);
+        stockData.put("amount",Double.parseDouble((String) values.get("19")) /10000);
+        stockData.put("turnover",Double.parseDouble((String) values.get("1968584")));
+        return stockData;
+    }
+
+    private static StockData parseDailyData(String symbol,String line){
+        String[] fields = line.split(",");
+        if(fields.length != 8){
+            return null;
+        }
+        DateTime dateTime = DateTimeFormat.forPattern("yyyyMMdd").parseDateTime(fields[0]);
+        StockData stockData = new StockData(symbol);
+        stockData.date = dateTime.toDate();
+        stockData.put("open",Double.parseDouble(fields[1]));
+        stockData.put("high",Double.parseDouble(fields[2]));
+        stockData.put("low",Double.parseDouble(fields[3]));
+        stockData.put("close",Double.parseDouble(fields[4]));
+        stockData.put("volume",Double.parseDouble(fields[5])/100);
+        stockData.put("amount",Double.parseDouble(fields[6])/10000);
+        stockData.put("turnover",Double.parseDouble(fields[7]));
+        return stockData;
     }
 
     //http://d.10jqka.com.cn/v2/line/hs_600133/01/2015.js

@@ -1,6 +1,7 @@
 package net.jquant.provider;
 
 import net.jquant.Indicators;
+import net.jquant.common.StockDataParseException;
 import net.jquant.common.Utils;
 import net.jquant.model.StockBlock;
 import net.jquant.model.StockData;
@@ -25,8 +26,6 @@ public class Provider {
 
     private static final Logger LOG = LoggerFactory.getLogger(Provider.class);
 
-    private static Indicators indicators = new Indicators();
-
     /**
      * 获取指定时间段内的日线股票数据
      *
@@ -35,16 +34,8 @@ public class Provider {
      * @param stopDate  格式：yyyyMMdd
      * @return stock data list
      */
-    public static List<StockData> dailyData(String symbol, String startDate, String stopDate) {
-        return DailyDataProvider.getFQ(symbol, startDate, stopDate);
-    }
-
-    public static List<StockData> dailyData(String symbol,String startDate,String stopDate,boolean isFQ){
-        if(isFQ){
-            return DailyDataProvider.getFQ(symbol,startDate,stopDate);
-        }else{
-            return DailyDataProvider.get(symbol,startDate,stopDate);
-        }
+    public static List<StockData> dailyData(String symbol, String startDate, String stopDate) throws StockDataParseException {
+        return DailyDataProvider.get(symbol, startDate, stopDate);
     }
 
     /**
@@ -53,43 +44,9 @@ public class Provider {
      * @param symbol stock symbol
      * @return stock data list
      */
-    public static List<StockData> dailyData(String symbol) {
-        return dailyData(symbol, true);
-    }
-
-    /**
-     * 获取日线级别最近250天历史数据
-     * @param symbol stock symbol
-     * @param isFQ is fq
-     * @return stock data list
-     */
-    public static List<StockData> dailyData(String symbol,boolean isFQ) {
+    public static List<StockData> dailyData(String symbol) throws StockDataParseException {
         DateRange range = DateRange.getRange(250);
-        return dailyData(symbol, range.start(), range.stop(),isFQ);
-    }
-
-    /**
-     * 获取指定天数内的日线股票数据
-     *
-     * @param symbol stock symbol
-     * @param period time period
-     * @return stock data list
-     */
-    public static List<StockData> dailyData(String symbol, int period) {
-        return dailyData(symbol,period,true);
-    }
-
-    /**
-     * 获取指定天数内的日线股票数据
-     *
-     * @param symbol stock symbol
-     * @param period time period
-     * @param isFQ is fq
-     * @return stock data list
-     */
-    public static List<StockData> dailyData(String symbol, int period,boolean isFQ) {
-        DateRange dateRange = DateRange.getRange(period);
-        return dailyData(symbol, dateRange.start(), dateRange.stop(),isFQ);
+        return dailyData(symbol, range.start(),range.stop());
     }
 
     /**
@@ -301,7 +258,7 @@ public class Provider {
     }
 
     //计算是今天第几个bar，从1开始
-    private static long getTimeSlot(long curTime, long startTime, int interval) {
+    private long getTimeSlot(long curTime, long startTime, int interval) {
         return (curTime - startTime) / interval;
     }
 }

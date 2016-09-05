@@ -1,12 +1,13 @@
 package net.jquant;
 
+import net.jquant.common.StockDataParseException;
 import net.jquant.model.StockData;
 
 import java.util.List;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws StockDataParseException {
         Quants quants = new Quants();
         //获取股票列表
         List<String> list = quants.data.stockList();

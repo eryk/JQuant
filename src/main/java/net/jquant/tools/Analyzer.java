@@ -3,6 +3,7 @@ package net.jquant.tools;
 import com.google.common.base.Strings;
 import net.jquant.Quants;
 import net.jquant.common.ParallelProcesser;
+import net.jquant.common.StockDataParseException;
 import net.jquant.model.StockData;
 
 import java.io.IOException;
@@ -18,7 +19,7 @@ public class Analyzer {
         quant = new Quants();
     }
 
-    public void analyze() throws IOException {
+    public void analyze() throws IOException, StockDataParseException {
         List<StockData> stockDatas = new StockList().create().get();
 
         Map<String, Set<String>> gn = StockCategory.getStockCategory("概念");
@@ -34,7 +35,7 @@ public class Analyzer {
                 if(realtimeData.get("close") > 40){
                     continue;
                 }
-                List<StockData> stockDatas1 = quant.data.dailyData(stockData.symbol,false);
+                List<StockData> stockDatas1 = quant.data.dailyData(stockData.symbol);
                 if(stockDatas1.size() < 60){
                     continue;
                 }
@@ -49,7 +50,7 @@ public class Analyzer {
         }
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, StockDataParseException {
         ParallelProcesser.init(5,10);
         Analyzer analyzer = new Analyzer();
         analyzer.analyze();

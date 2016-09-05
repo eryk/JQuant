@@ -182,53 +182,6 @@ public class DailyDataProvider {
 
     //http://d.10jqka.com.cn/v2/line/hs_600133/01/2015.js
     public static String FQ_URL = "http://d.10jqka.com.cn/v2/line/hs_%s/01/%s.js";
-    /**
-     * 获取前复权数据
-     * @param symbol stock symbol
-     * @param startDate yyyyMMdd
-     * @param stopDate yyyyMMdd
-     * @return fq data list
-     */
-    public static List<StockData> getFQ(String symbol, String startDate, String stopDate){
-        List<StockData> stockDataList = Lists.newLinkedList();
-        List<String> years = Utils.getYearBetween(startDate,stopDate);
-        for(String year:years){
-            String url = String.format(FQ_URL, symbol, year);
-            String data = Downloader.download(url);
-            if(Strings.isNullOrEmpty(data)){
-               continue;
-            }
-            String[] records = data.substring(47, data.length() - 3).split(";");
-            for(int i =0;i<records.length;i++){
-                String[] record = records[i].split(",");
-                if(record.length==8){
-                    StockData stockData = new StockData(symbol);
-                    stockData.date = Utils.str2Date(record[0],"yyyyMMdd");
-                    stockData.put(StockConstants.OPEN,Utils.str2Double(record[1]));
-                    stockData.put(StockConstants.HIGH,Utils.str2Double(record[2]));
-                    stockData.put(StockConstants.LOW,Utils.str2Double(record[3]));
-                    stockData.put(StockConstants.CLOSE,Utils.str2Double(record[4]));
-                    stockData.put(StockConstants.VOLUME,Utils.str2Double(record[5])/100);
-                    stockData.put(StockConstants.AMOUNT,Utils.str2Double(record[6])/10000);
-                    stockData.put(StockConstants.TURNOVER_RATE,Utils.str2Double(record[7]));
-                    try{
-                        if(stockDataList.size()>0){
-                            stockData.put(StockConstants.LAST_CLOSE,stockDataList.get(i-1).get(StockConstants.CLOSE));
-                            stockData.put(StockConstants.CHANGE_AMOUNT,stockData.get(StockConstants.CLOSE) - stockDataList.get(i-1).get(StockConstants.CLOSE));
-                            stockData.put(StockConstants.AMPLITUDE, Utils.formatDouble((stockData.get(StockConstants.HIGH) - stockData.get(StockConstants.LOW)) / stockData.get(StockConstants.LAST_CLOSE))*100);
-                            stockData.put(StockConstants.CHANGE, Utils.formatDouble((stockData.get(StockConstants.CHANGE_AMOUNT)) / stockData.get(StockConstants.LAST_CLOSE))*100);
-                        }
-                    }catch(Exception e){
-                        //TODO CHECK
-                    }
-                    stockDataList.add(stockData);
-                }else{
-                    LOG.error(Joiner.on(",").join(record));
-                }
-            }
-        }
-        return stockDataList;
-    }
 
     private static void changeUnit(StockData stockData) {
         stockData.put(StockConstants.VOLUME, stockData.get(StockConstants.VOLUME) / 100);    //成交量,单位：手

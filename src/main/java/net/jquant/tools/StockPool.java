@@ -1,6 +1,7 @@
 package net.jquant.tools;
 
 import com.google.common.collect.Lists;
+import net.jquant.common.StockDataParseException;
 import net.jquant.model.StockBlock;
 import net.jquant.provider.Provider;
 
@@ -85,7 +86,12 @@ public class StockPool {
      * @return stock list
      */
     public List<String> stockList(){
-        return getList("all",86400);
+        try {
+            return getList("all",86400);
+        } catch (StockDataParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**
@@ -110,7 +116,7 @@ public class StockPool {
         return StockList.getStockListWithConditions(tradingStockList, conditions);
     }
 
-    private List<String> getList(String key,long timeout) {
+    private List<String> getList(String key,long timeout) throws StockDataParseException {
         List<String> stockList = Lists.newLinkedList();
         if(stockList==null || stockList.size()==0){
             stockList = Provider.stockList();

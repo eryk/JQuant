@@ -1,6 +1,5 @@
 package net.jquant.provider;
 
-import net.jquant.Indicators;
 import net.jquant.common.StockDataParseException;
 import net.jquant.common.Utils;
 import net.jquant.model.StockBlock;
@@ -66,7 +65,7 @@ public class Provider {
      * @return stock data list
      */
     public static List<StockData> dailyDataZS(String symbol, String startDate, String stopDate) throws StockDataParseException {
-        return DailyDataProvider.getZS(symbol, startDate, stopDate);
+        return DailyDataProvider.getIndex(symbol, startDate, stopDate);
     }
 
     public static List<StockData> dailyDataZS(String symbol, int period) throws StockDataParseException {

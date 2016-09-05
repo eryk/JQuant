@@ -134,7 +134,7 @@ public class RealTimeDataProvider {
     }
 
     public static void main(String[] args) {
-        StockData stock = RealTimeDataProvider.get("600376");
+        StockData stock = RealTimeDataProvider.get("000001");
         System.out.println(stock);
     }
 }

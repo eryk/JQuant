@@ -6,7 +6,7 @@
 
     <groupId>net.jquant</groupId>
     <artifactId>JQuant</artifactId>
-    <version>0.1</version>
+    <version>0.2</version>
 
     <name>JQuant</name>
     <description>quant tool</description>

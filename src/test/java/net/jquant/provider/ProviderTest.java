@@ -1,5 +1,6 @@
 package net.jquant.provider;
 
+import net.jquant.common.StockDataParseException;
 import net.jquant.model.StockData;
 import org.junit.Test;
 
@@ -116,7 +117,12 @@ public class ProviderTest {
 
     @Test
     public void testRealTimeData(){
-        StockData stockData = Provider.realtimeData("000403");
+        StockData stockData = null;
+        try {
+            stockData = Provider.realtimeData("000403");
+        } catch (StockDataParseException e) {
+            e.printStackTrace();
+        }
         System.out.println(stockData);
     }
 }

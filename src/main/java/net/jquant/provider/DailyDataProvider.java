@@ -88,7 +88,7 @@ public class DailyDataProvider {
      * @param stopDate yyyyMMdd
      * @return data list
      */
-    public static List<StockData> getZS(String symbol,String startDate,String stopDate){
+    public static List<StockData> getIndex(String symbol, String startDate, String stopDate){
         String url;
         if(symbol.startsWith("3")){
             url = getPath(symbol,startDate,stopDate);

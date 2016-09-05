@@ -3,6 +3,7 @@ package net.jquant.strategy;
 import com.google.common.collect.Lists;
 import net.jquant.Quants;
 import net.jquant.common.ParallelProcesser;
+import net.jquant.common.StockDataParseException;
 import net.jquant.model.StockData;
 import net.jquant.provider.Provider;
 import net.jquant.tools.Sleeper;
@@ -12,7 +13,7 @@ import java.util.List;
 
 public class TStragegy {
 
-    public static void t(String symbol) {
+    public static void t(String symbol) throws StockDataParseException {
         Quants quants = new Quants();
         List<StockData> stockDatas = quants.data.minuteData(symbol, "15");
         System.out.println(stockDatas.size());
@@ -25,7 +26,7 @@ public class TStragegy {
         }
     }
 
-    public static void print(List<String> symbolList) {
+    public static void print(List<String> symbolList) throws StockDataParseException {
         while (true) {
             for(String symbol:symbolList){
 
@@ -42,7 +43,7 @@ public class TStragegy {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws StockDataParseException {
         ParallelProcesser.init(1, 2);
         TStragegy.print(Lists.newArrayList("002121","600444","600152","002627","600605","600561"));
         ParallelProcesser.close();

@@ -19,7 +19,7 @@ public class Analyzer {
     }
 
     public void analyze() throws IOException {
-        List<StockData> stockDatas = StockList.create().get();
+        List<StockData> stockDatas = new StockList().create().get();
 
         Map<String, Set<String>> gn = StockCategory.getStockCategory("概念");
         Map<String, Set<String>> hy = StockCategory.getStockCategory("行业");

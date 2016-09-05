@@ -1,6 +1,8 @@
 package net.jquant.provider;
 
 import com.google.common.collect.Lists;
+import net.jquant.common.StockDataParseException;
+import net.jquant.common.Utils;
 import net.jquant.downloader.THSJSDownloader;
 import net.jquant.model.StockData;
 import org.joda.time.DateTime;
@@ -63,7 +65,7 @@ public class DataProvider {
      * @param symbol 股票代码
      * @return 实时股票数据
      */
-    public StockData realtime(String symbol) {
+    public StockData realtime(String symbol) throws StockDataParseException{
         String url = "http://d.10jqka.com.cn/v2/realhead/hs_%s/last.js";
         Map<String, Object> result = THSJSDownloader.download(url, symbol);
         StockData stockData = new StockData(symbol);
@@ -74,15 +76,15 @@ public class DataProvider {
         return stockData;
     }
 
-    public StockData today(String symbol){
+    private StockData today(String symbol) throws StockDataParseException{
         String url = "http://d.10jqka.com.cn/v2/line/hs_%s/01/today.js";
         Map<String, Object> download = THSJSDownloader.download(url, symbol);
         if(download == null || download.size() == 0){
-            return null;
+            throw new StockDataParseException();
         }
         Map<String,Object> values = (Map<String, Object>) download.get("hs_" + symbol);
         if(values == null || values.size() == 0){
-            return null;
+            throw new StockDataParseException();
         }
         StockData stockData = new StockData(symbol);
         stockData.date = DateTimeFormat.forPattern("yyyyMMddHHmm").parseLocalDateTime(
@@ -97,7 +99,13 @@ public class DataProvider {
         return stockData;
     }
 
-    public List<StockData> daily(String symbol) {
+    /**
+     * 日线数据获取
+     * @param symbol
+     * @return 返回日线数据股票列表
+     * @throws StockDataParseException
+     */
+    public List<StockData> daily(String symbol) throws StockDataParseException{
         String lastUrl = "http://d.10jqka.com.cn/v2/line/hs_%s/01/last.js";
         Map<String, Object> stringObjectMap = THSJSDownloader.download(lastUrl, symbol);
         Map<String, String> years = (Map<String, String>) stringObjectMap.get("year");
@@ -106,11 +114,11 @@ public class DataProvider {
         for (String year : years.keySet()) {
             Map<String, Object> tmp = THSJSDownloader.download(String.format(yearUrl, symbol, year));
             if (tmp == null || tmp.size() == 0){
-                return null;
+                throw new StockDataParseException();
             }
             String data = (String) tmp.get("data");
             if(data == null){
-                return null;
+                throw new StockDataParseException();
             }
             String[] array = data.split(";");
             for(String line:array){
@@ -118,8 +126,14 @@ public class DataProvider {
                 if(stockData != null){
                     stockDatas.add(stockData);
                 }else{
-                    return null;
+                    throw new StockDataParseException();
                 }
+            }
+        }
+        if(stockDatas.size() > 0){
+            StockData stockData = stockDatas.get(stockDatas.size()-1);
+            if(!Utils.isToday(stockData.date)){
+                stockDatas.add(today(symbol));
             }
         }
         return stockDatas;
@@ -143,13 +157,12 @@ public class DataProvider {
         return stockData;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws StockDataParseException {
         DataProvider dataProvider = new DataProvider();
-//        List<StockData> fiverange = dataProvider.daily("002121");
-//        for(StockData stockData :fiverange){
-//            System.out.println(stockData);
-//        }
-        StockData today = dataProvider.today("002121");
-        System.out.println(today);
+        List<StockData> fiverange = dataProvider.daily("002121");
+        for(StockData stockData :fiverange){
+            System.out.println(stockData);
+        }
+
     }
 }

@@ -12,7 +12,7 @@ public class StockListTest {
     @Test
     public void get() throws Exception {
         ParallelProcesser.init(1,16);
-        List<StockData> stockList = StockList.create().filter(Lists.newArrayList("st")).get();
+        List<StockData> stockList = new StockList().create().filter(Lists.newArrayList("st")).get();
         for(StockData stockData:stockList){
             System.out.println(stockData.name + "\t" + stockData.symbol);
         }

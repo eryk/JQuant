@@ -391,6 +391,14 @@ public class Utils {
         }
     }
 
+    public static boolean isToday(Date date){
+        DateTime dt = new DateTime(date);
+        if(dt.getDayOfMonth() == DateTime.now().getDayOfMonth()){
+            return true;
+        }
+        return false;
+    }
+
     public static void closeThreadPool(ExecutorService threadPool){
         if(threadPool==null){
             return;

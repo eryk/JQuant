@@ -23,7 +23,7 @@ public class Quants {
      */
     public final StrategyUtils strategy = new StrategyUtils();
 
-    public final StockList stocks = StockList.create();
+    public final StockList stocks = new StockList();
     /**
      * 使用外部存储，支持：
      * 文件系统(csv)

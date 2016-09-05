@@ -43,15 +43,10 @@ public class StockList {
     private List<StockData> stockDataList;
     private List<String> blackList = Lists.newLinkedList();
 
-    public static StockList create(){
-        return new StockList();
+    public StockList(){
     }
 
-    private StockList(){
-        init();
-    }
-
-    private StockList init() {
+    public StockList create() {
         if (stockMap == null) {
             stockMap = getStockName();
         }

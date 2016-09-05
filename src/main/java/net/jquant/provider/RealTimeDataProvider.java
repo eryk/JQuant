@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import net.jquant.common.StockConstants;
 import net.jquant.common.Utils;
 import net.jquant.downloader.Downloader;
+import net.jquant.downloader.THSJSDownloader;
 import net.jquant.model.StockData;
 import net.jquant.model.Symbol;
 import org.slf4j.Logger;
@@ -92,6 +93,44 @@ public class RealTimeDataProvider {
     public static String getPath(String symbol) {
         Date date = new Date();
         return String.format(realTimeDateURL, Symbol.getSymbol(symbol, realTimeDateURL), date.getTime());
+    }
+
+    /**
+     * http://d.10jqka.com.cn/v2/fiverange/hs_300033/last.js
+     *
+     * @return 五挡买卖数据
+     */
+    private StockData fiveRange(String symbol) {
+        String url = "http://d.10jqka.com.cn/v2/fiverange/hs_%s/last.js";
+        Map<String, Object> result = THSJSDownloader.download(url, symbol);
+        Map<String, String> parser = (Map<String, String>) result.get("items");
+        StockData stockData = new StockData(symbol);
+        if (parser != null) {
+            if (parser.size() > 0) {
+                stockData.put("buy1", Double.parseDouble(parser.get("24")));
+                stockData.put("buy1Volume", Double.parseDouble(parser.get("25")) / 100);
+                stockData.put("buy2", Double.parseDouble(parser.get("26")));
+                stockData.put("buy2Volume", Double.parseDouble(parser.get("27")) / 100);
+                stockData.put("buy3", Double.parseDouble(parser.get("28")));
+                stockData.put("buy3Volume", Double.parseDouble(parser.get("29")) / 100);
+                stockData.put("buy4", Double.parseDouble(parser.get("150")));
+                stockData.put("buy4Volume", Double.parseDouble(parser.get("151")) / 100);
+                stockData.put("buy5", Double.parseDouble(parser.get("154")));
+                stockData.put("buy5Volume", Double.parseDouble(parser.get("155")) / 100);
+                stockData.put("sell1", Double.parseDouble(parser.get("30")));
+                stockData.put("sell1Volume", Double.parseDouble(parser.get("31")) / 100);
+                stockData.put("sell2", Double.parseDouble(parser.get("32")));
+                stockData.put("sell2Volume", Double.parseDouble(parser.get("33")) / 100);
+                stockData.put("sell3", Double.parseDouble(parser.get("34")));
+                stockData.put("sell3Volume", Double.parseDouble(parser.get("35")) / 100);
+                stockData.put("sell4", Double.parseDouble(parser.get("152")));
+                stockData.put("sell4Volume", Double.parseDouble(parser.get("153")) / 100);
+                stockData.put("sell5", Double.parseDouble(parser.get("156")));
+                stockData.put("sell5Volume", Double.parseDouble(parser.get("157")) / 100);
+                return stockData;
+            }
+        }
+        return stockData;
     }
 
     public static void main(String[] args) {

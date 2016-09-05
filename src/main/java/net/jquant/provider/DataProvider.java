@@ -1,7 +1,10 @@
 package net.jquant.provider;
 
+import com.google.common.collect.Lists;
 import net.jquant.downloader.THSJSDownloader;
 import net.jquant.model.StockData;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
 
 import java.util.List;
 import java.util.Map;
@@ -26,7 +29,7 @@ public class DataProvider {
         Map<String, Object> result = THSJSDownloader.download(url, symbol);
         Map<String, String> parser = (Map<String, String>) result.get("items");
         StockData stockData = new StockData(symbol);
-        if(parser != null){
+        if (parser != null) {
             if (parser.size() > 0) {
                 stockData.put("buy1", Double.parseDouble(parser.get("24")));
                 stockData.put("buy1Volume", Double.parseDouble(parser.get("25")) / 100);
@@ -56,34 +59,97 @@ public class DataProvider {
 
     /**
      * 获取实时股票数据
+     *
      * @param symbol 股票代码
      * @return 实时股票数据
      */
     public StockData realtime(String symbol) {
         String url = "http://d.10jqka.com.cn/v2/realhead/hs_%s/last.js";
-        Map<String,Object> result = THSJSDownloader.download(url,symbol);
+        Map<String, Object> result = THSJSDownloader.download(url, symbol);
         StockData stockData = new StockData(symbol);
-        if(result != null){
+        if (result != null) {
 
         }
         stockData = RealTimeDataProvider.get(symbol);
         return stockData;
     }
 
-    public List<StockData> daily(String symbol){
+    public StockData today(String symbol){
+        String url = "http://d.10jqka.com.cn/v2/line/hs_%s/01/today.js";
+        Map<String, Object> download = THSJSDownloader.download(url, symbol);
+        if(download == null || download.size() == 0){
+            return null;
+        }
+        Map<String,Object> values = (Map<String, Object>) download.get("hs_" + symbol);
+        if(values == null || values.size() == 0){
+            return null;
+        }
+        StockData stockData = new StockData(symbol);
+        stockData.date = DateTimeFormat.forPattern("yyyyMMddHHmm").parseLocalDateTime(
+                String.valueOf(values.get("1")) + String.valueOf(values.get("dt"))).toDate();
+        stockData.put("open",Double.parseDouble((String) values.get("7")));
+        stockData.put("high",Double.parseDouble((String) values.get("8")));
+        stockData.put("low",Double.parseDouble((String) values.get("9")));
+        stockData.put("close",Double.parseDouble((String) values.get("11")));
+        stockData.put("volume", (Double) values.get("13") /100);
+        stockData.put("amount",Double.parseDouble((String) values.get("19")) /10000);
+        stockData.put("turnover",Double.parseDouble((String) values.get("1968584")));
+        return stockData;
+    }
+
+    public List<StockData> daily(String symbol) {
         String lastUrl = "http://d.10jqka.com.cn/v2/line/hs_%s/01/last.js";
         Map<String, Object> stringObjectMap = THSJSDownloader.download(lastUrl, symbol);
-        Map<String,String> years = (Map<String, String>) stringObjectMap.get("year");
+        Map<String, String> years = (Map<String, String>) stringObjectMap.get("year");
         String yearUrl = "http://d.10jqka.com.cn/v2/line/hs_%s/01/%s.js";
-        for(String year : years.keySet()){
-//            Map<String,String> data = THSJSDownloader.download(String.format())
+        List<StockData> stockDatas = Lists.newLinkedList();
+        for (String year : years.keySet()) {
+            Map<String, Object> tmp = THSJSDownloader.download(String.format(yearUrl, symbol, year));
+            if (tmp == null || tmp.size() == 0){
+                return null;
+            }
+            String data = (String) tmp.get("data");
+            if(data == null){
+                return null;
+            }
+            String[] array = data.split(";");
+            for(String line:array){
+                StockData stockData = parseDailyData(symbol,line);
+                if(stockData != null){
+                    stockDatas.add(stockData);
+                }else{
+                    return null;
+                }
+            }
         }
-        return null;
+        return stockDatas;
+    }
+
+    public StockData parseDailyData(String symbol,String line){
+        String[] fields = line.split(",");
+        if(fields.length != 8){
+            return null;
+        }
+        DateTime dateTime = DateTimeFormat.forPattern("yyyyMMdd").parseDateTime(fields[0]);
+        StockData stockData = new StockData(symbol);
+        stockData.date = dateTime.toDate();
+        stockData.put("open",Double.parseDouble(fields[1]));
+        stockData.put("high",Double.parseDouble(fields[2]));
+        stockData.put("low",Double.parseDouble(fields[3]));
+        stockData.put("close",Double.parseDouble(fields[4]));
+        stockData.put("volume",Double.parseDouble(fields[5])/100);
+        stockData.put("amount",Double.parseDouble(fields[6])/10000);
+        stockData.put("turnover",Double.parseDouble(fields[7]));
+        return stockData;
     }
 
     public static void main(String[] args) {
         DataProvider dataProvider = new DataProvider();
-        StockData fiverange = dataProvider.fiveRange("002121");
-        System.out.println(fiverange);
+//        List<StockData> fiverange = dataProvider.daily("002121");
+//        for(StockData stockData :fiverange){
+//            System.out.println(stockData);
+//        }
+        StockData today = dataProvider.today("002121");
+        System.out.println(today);
     }
 }

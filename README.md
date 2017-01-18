@@ -2,9 +2,9 @@
 
 # 项目迁移
 
-新项目在JQuant原有功能的基础上增加了回测和交易等功能，使用scala开发与java兼容
+JQuant已经停止更新，请使用全新的SQuant项目，新项目是JQuant的升级版本，包含JQuant所有功能，并在JQuant基础上增加了回测和交易等功能，使用scala开发与java兼容
 
-https://github.com/eryk/squant
+新项目地址：https://github.com/eryk/squant
 
 # [changelog](https://github.com/eryk/JQuant/wiki#changelog)
 

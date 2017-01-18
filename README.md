@@ -1,6 +1,10 @@
 # JQuant
 
-![微信订阅号](https://github.com/eryk/JQuant/blob/test/qrcode_for_gh_188ebb8e2c0a_258.jpg "微信订阅号")
+# 项目迁移
+
+新项目在JQuant原有功能的基础上增加了回测和交易等功能，使用scala开发与java兼容
+
+https://github.com/eryk/squant
 
 # [changelog](https://github.com/eryk/JQuant/wiki#changelog)
 

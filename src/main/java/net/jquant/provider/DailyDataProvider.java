@@ -175,7 +175,11 @@ public class DailyDataProvider {
         stockData.put("low",Double.parseDouble(fields[3]));
         stockData.put("close",Double.parseDouble(fields[4]));
         stockData.put("volume",Double.parseDouble(fields[5])/100);
-        stockData.put("amount",Double.parseDouble(fields[6])/10000);
+        if(!Strings.isNullOrEmpty(fields[6])){
+            stockData.put("amount",Double.parseDouble(fields[6])/10000);
+        }else{
+            stockData.put("amount",0d);
+        }
         stockData.put("turnover",Double.parseDouble(fields[7]));
         return stockData;
     }

@@ -1,6 +1,10 @@
 # JQuant
 
-![微信订阅号](https://github.com/eryk/JQuant/blob/test/qrcode_for_gh_188ebb8e2c0a_258.jpg "微信订阅号")
+# 项目迁移
+
+JQuant已经停止更新，请使用全新的SQuant项目，新项目是JQuant的升级版本，包含JQuant所有功能，并在JQuant基础上增加了回测和交易等功能，使用scala开发与java兼容
+
+新项目地址：https://github.com/eryk/squant
 
 # [changelog](https://github.com/eryk/JQuant/wiki#changelog)
 
